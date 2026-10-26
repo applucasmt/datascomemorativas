@@ -152,47 +152,6 @@
         }
 
         /* ============================================
-           IOS SEARCH
-        ============================================ */
-        .ios-search-wrap {
-            position: relative;
-            flex-shrink: 0;
-            padding: 0 4px 8px 4px;
-        }
-
-        .ios-search {
-            width: 100%;
-            background: rgba(118, 118, 128, 0.08);
-            border: none;
-            border-radius: 10px;
-            padding: 10px 12px 10px 36px;
-            font-size: 15px;
-            font-weight: 400;
-            color: #1a1a1a;
-            outline: none;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .ios-search:focus {
-            background: white;
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.12);
-        }
-
-        .ios-search::placeholder {
-            color: #8e8e93;
-        }
-
-        .ios-search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #8e8e93;
-            pointer-events: none;
-        }
-
-        /* ============================================
            IOS SEGMENTED CONTROL
         ============================================ */
         .ios-segmented {
@@ -1046,7 +1005,6 @@
         let state = {
             activeTab: 'cidades',
             syncStatus: 'offline',
-            searchTerm: '',
             isUploadingPdf: false,
             isUploadingMedia: false,
             uploadProgress: 0,
@@ -1207,14 +1165,6 @@
             return [...new Set(types)].slice(0, 3);
         };
 
-        const filterData = (dataArray, key1, key2) => {
-            if(!state.searchTerm) return dataArray;
-            return dataArray.filter(item => 
-                (item[key1] && item[key1].toLowerCase().includes(state.searchTerm.toLowerCase())) ||
-                (item[key2] && item[key2].toLowerCase().includes(state.searchTerm.toLowerCase()))
-            );
-        };
-
         // ============================================
         // FUNÇÕES DE API
         // ============================================
@@ -1348,7 +1298,11 @@
                     progress += 5;
                     state.uploadProgress = progress;
                     state.uploadStatus = progress < 50 ? 'Enviando...' : 'Salvando...';
-                    debouncedUpdateUI();
+                    // Atualiza apenas a barra de progresso sem re-renderizar o modal inteiro
+                    const progressBar = document.querySelector('.ios-progress-bar');
+                    const progressText = document.querySelector('.ios-progress-text');
+                    if (progressBar) progressBar.style.width = progress + '%';
+                    if (progressText) progressText.textContent = state.uploadStatus + ' ' + progress + '%';
                 }
             }, 500);
             
@@ -1603,11 +1557,7 @@
 
             const monthEvents = getEventsForMonth(viewMonth, viewYear);
             const dayEvents = getEventsForDay(selectedDay, viewMonth, viewYear);
-            const filteredDayEvents = state.searchTerm ?
-                dayEvents.filter(e => {
-                    const title = e.cidade || e.nome || e.comemoracao || '';
-                    return title.toLowerCase().includes(state.searchTerm.toLowerCase());
-                }) : dayEvents;
+            const filteredDayEvents = dayEvents;
 
             const totalCidades = state.cidades.length;
             const totalAniversariantes = state.aniversariantes.length;
@@ -1637,14 +1587,6 @@
                                 }
                             </button>
                         </div>
-                    </div>
-
-                    <!-- SEARCH -->
-                    <div class="ios-search-wrap">
-                        <div class="ios-search-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                        </div>
-                        <input type="text" placeholder="Buscar" value="${state.searchTerm}" oninput="updateSearch(this.value)" class="ios-search" />
                     </div>
 
                     <!-- SEGMENTED CONTROL -->
@@ -1870,7 +1812,7 @@
                                     ${state.isUploadingMedia || state.uploadProgress > 0 ? `
                                         <div style="margin-top:12px;">
                                             <div class="ios-progress"><div class="ios-progress-bar" style="width:${state.uploadProgress}%;"></div></div>
-                                            <p style="text-align:center;font-size:12px;color:#8e8e93;margin-top:4px;">
+                                            <p class="ios-progress-text" style="text-align:center;font-size:12px;color:#8e8e93;margin-top:4px;">
                                                 ${state.uploadStatus || (state.uploadProgress < 100 ? `Enviando... ${state.uploadProgress}%` : 'Finalizando...')}
                                             </p>
                                         </div>
@@ -2005,11 +1947,6 @@
         // ============================================
         window.setActiveTab = (tab) => {
             state.activeTab = tab;
-            updateUI();
-        };
-
-        window.updateSearch = (value) => {
-            state.searchTerm = value;
             updateUI();
         };
 
