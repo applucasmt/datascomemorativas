@@ -1,0 +1,2185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>DATAS COMEMORATIVAS 2026</title>
+    
+    <meta name="theme-color" content="#f2f2f7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Agenda">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background-color: #f2f2f7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #1a1a1a;
+            height: 100vh;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+
+        #app {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+
+        /* ============================================
+           APP CONTAINER
+        ============================================ */
+        .app-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 8px 12px 12px 12px;
+            background: #f2f2f7;
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .app-container { padding: 6px 10px 10px 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .app-container { padding: 4px 6px 6px 6px; }
+        }
+
+        /* ============================================
+           IOS HEADER
+        ============================================ */
+        .ios-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 4px 8px 4px;
+            flex-shrink: 0;
+        }
+
+        .ios-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #3a3a3c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 768px) {
+            .ios-header h1 { font-size: 24px; }
+        }
+
+        @media (max-width: 480px) {
+            .ios-header h1 { font-size: 20px; }
+        }
+
+        .ios-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ios-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .ios-status-dot.online { background: #34C759; }
+        .ios-status-dot.syncing { background: #FF9500; animation: pulse 1s infinite; }
+        .ios-status-dot.offline { background: #8e8e93; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .ios-btn-icon {
+            background: #f2f2f7;
+            border: none;
+            border-radius: 12px;
+            padding: 6px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #007AFF;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: inherit;
+        }
+
+        .ios-btn-icon:active {
+            transform: scale(0.92);
+            background: #e5e5ea;
+        }
+
+        .ios-btn-icon:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           IOS SEARCH
+        ============================================ */
+        .ios-search-wrap {
+            position: relative;
+            flex-shrink: 0;
+            padding: 0 4px 8px 4px;
+        }
+
+        .ios-search {
+            width: 100%;
+            background: rgba(118, 118, 128, 0.08);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 12px 10px 36px;
+            font-size: 15px;
+            font-weight: 400;
+            color: #1a1a1a;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .ios-search:focus {
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.12);
+        }
+
+        .ios-search::placeholder {
+            color: #8e8e93;
+        }
+
+        .ios-search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8e8e93;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           IOS SEGMENTED CONTROL
+        ============================================ */
+        .ios-segmented {
+            background: rgba(118, 118, 128, 0.12);
+            border-radius: 10px;
+            padding: 3px;
+            display: flex;
+            flex-shrink: 0;
+            margin-bottom: 10px;
+        }
+
+        .ios-segment {
+            flex: 1;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #8e8e93;
+            border-radius: 8px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+        }
+
+        .ios-segment.active {
+            background: white;
+            color: #007AFF;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .ios-segment:active {
+            transform: scale(0.96);
+        }
+
+        .ios-segment .badge {
+            font-size: 10px;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 480px) {
+            .ios-segment { font-size: 12px; padding: 6px 0; }
+        }
+
+        /* ============================================
+           IOS GRID - RESPONSIVO
+        ============================================ */
+        .ios-grid {
+            flex: 1;
+            display: flex;
+            gap: 12px;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        @media (max-width: 1024px) {
+            .ios-grid { 
+                flex-direction: column; 
+                gap: 10px;
+                overflow: hidden;
+            }
+        }
+
+        /* ============================================
+           IOS CALENDAR - RESPONSIVO
+        ============================================ */
+        .ios-calendar {
+            flex: 0 0 auto;
+            width: 42%;
+            min-width: 0;
+            background: white;
+            border-radius: 16px;
+            border: 0.5px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-height: 100%;
+        }
+
+        @media (max-width: 1200px) {
+            .ios-calendar { width: 45%; }
+        }
+
+        @media (max-width: 1024px) {
+            .ios-calendar {
+                width: 100%;
+                flex: 0 0 auto;
+                max-height: 340px;
+                min-height: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ios-calendar {
+                max-height: 300px;
+                min-height: 220px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ios-calendar {
+                max-height: 260px;
+                min-height: 180px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .ios-calendar {
+                max-height: 220px;
+                min-height: 150px;
+            }
+        }
+
+        .ios-calendar .month-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px 6px 14px;
+            flex-shrink: 0;
+        }
+
+        .ios-calendar .month-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.3px;
+        }
+
+        @media (max-width: 480px) {
+            .ios-calendar .month-title { font-size: 15px; }
+        }
+
+        .ios-calendar .nav-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007AFF;
+            transition: all 0.2s;
+            font-size: 18px;
+        }
+
+        .ios-calendar .nav-btn:active {
+            background: rgba(0, 122, 255, 0.1);
+            transform: scale(0.9);
+        }
+
+        .ios-calendar .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 0 8px 2px 8px;
+            flex-shrink: 0;
+        }
+
+        .ios-calendar .weekday {
+            text-align: center;
+            font-size: 10px;
+            font-weight: 600;
+            color: #8e8e93;
+            padding: 4px 0;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 480px) {
+            .ios-calendar .weekday { font-size: 9px; padding: 2px 0; }
+        }
+
+        @media (max-width: 380px) {
+            .ios-calendar .weekday { font-size: 8px; padding: 1px 0; }
+        }
+
+        .ios-calendar .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 2px 8px 6px 8px;
+            gap: 2px;
+            flex: 1;
+            align-content: start;
+        }
+
+        .ios-calendar .day-cell {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            position: relative;
+            font-weight: 500;
+            font-size: 15px;
+            color: #1a1a1a;
+            min-height: 36px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ios-calendar .day-cell:active {
+            transform: scale(0.88);
+        }
+
+        .ios-calendar .day-cell.today {
+            background: #007AFF;
+            color: white;
+            font-weight: 700;
+        }
+
+        .ios-calendar .day-cell.other-month {
+            color: #c7c7cc;
+        }
+
+        .ios-calendar .day-cell.weekend {
+            color: #FF3B30;
+        }
+
+        .ios-calendar .day-cell.weekend.today {
+            color: white;
+        }
+
+        .ios-calendar .day-cell.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #007AFF;
+        }
+
+        .ios-calendar .day-cell.has-event.today::after {
+            background: white;
+        }
+
+        .ios-calendar .day-cell.has-event-completed::after {
+            background: #34C759;
+        }
+
+        .ios-calendar .day-cell.selected {
+            background: rgba(0, 122, 255, 0.15);
+            font-weight: 700;
+        }
+
+        .ios-calendar .day-cell.selected.today {
+            background: #007AFF;
+            color: white;
+        }
+
+        .ios-calendar .day-cell .event-indicator {
+            display: flex;
+            gap: 1px;
+            margin-top: 1px;
+        }
+
+        .ios-calendar .day-cell .event-dot {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+        }
+
+        .event-dot.cidades { background: #007AFF; }
+        .event-dot.aniversariantes { background: #FF9500; }
+        .event-dot.datas { background: #AF52DE; }
+
+        @media (max-width: 1024px) {
+            .ios-calendar .day-cell { font-size: 14px; min-height: 34px; }
+        }
+
+        @media (max-width: 768px) {
+            .ios-calendar .day-cell { font-size: 13px; min-height: 32px; }
+        }
+
+        @media (max-width: 480px) {
+            .ios-calendar .day-cell { font-size: 12px; min-height: 28px; }
+        }
+
+        @media (max-width: 380px) {
+            .ios-calendar .day-cell { font-size: 10px; min-height: 22px; }
+        }
+
+        .ios-calendar .legend {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 4px 0;
+            border-top: 0.5px solid rgba(0, 0, 0, 0.06);
+            font-size: 9px;
+            color: #8e8e93;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .ios-calendar .legend span {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .ios-calendar .legend .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .ios-calendar .legend .dot.blue { background: #007AFF; }
+        .ios-calendar .legend .dot.orange { background: #FF9500; }
+        .ios-calendar .legend .dot.purple { background: #AF52DE; }
+        .ios-calendar .legend .dot.green { background: #34C759; }
+
+        .ios-calendar .totals {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 3px 0 5px 0;
+            border-top: 0.5px solid rgba(0, 0, 0, 0.06);
+            font-size: 10px;
+            color: #8e8e93;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 480px) {
+            .ios-calendar .legend { font-size: 8px; gap: 6px; padding: 2px 0; }
+            .ios-calendar .legend .dot { width: 4px; height: 4px; }
+            .ios-calendar .totals { font-size: 9px; gap: 8px; padding: 2px 0 4px 0; }
+        }
+
+        /* ============================================
+           IOS EVENTS
+        ============================================ */
+        .ios-events {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 16px;
+            border: 0.5px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            height: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            .ios-events {
+                flex: 1;
+                min-height: 150px;
+                max-height: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ios-events { min-height: 120px; }
+        }
+
+        .ios-events-header {
+            padding: 12px 16px 8px 16px;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .ios-events-header h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .ios-events-header .count {
+            font-size: 12px;
+            color: #8e8e93;
+            background: rgba(118, 118, 128, 0.08);
+            padding: 2px 12px;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .ios-events-header { padding: 8px 12px 6px 12px; }
+            .ios-events-header h3 { font-size: 14px; }
+        }
+
+        .ios-events-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 12px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 480px) {
+            .ios-events-list { padding: 6px 8px; }
+        }
+
+        .ios-event-item {
+            background: rgba(118, 118, 128, 0.04);
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            border-left: 3px solid #007AFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            gap: 8px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ios-event-item:active {
+            transform: scale(0.98);
+            background: rgba(118, 118, 128, 0.08);
+        }
+
+        .ios-event-item.completed {
+            background: rgba(52, 199, 89, 0.06);
+            opacity: 0.7;
+            border-left-color: #34C759;
+        }
+
+        .ios-event-item.completed .event-title {
+            text-decoration: line-through;
+            color: #8e8e93;
+        }
+
+        .ios-event-item .event-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .ios-event-item .event-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ios-event-item .event-date {
+            font-size: 12px;
+            color: #8e8e93;
+            margin-top: 1px;
+        }
+
+        .ios-event-item .event-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .ios-event-item.cidade-event { border-left-color: #007AFF; }
+        .ios-event-item.aniversariante-event { border-left-color: #FF9500; }
+        .ios-event-item.data-event { border-left-color: #AF52DE; }
+
+        .ios-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1.5px solid #c7c7cc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            background: white;
+        }
+
+        .ios-check:active {
+            transform: scale(0.9);
+        }
+
+        .ios-check.done {
+            background: #34C759;
+            border-color: #34C759;
+        }
+
+        .ios-check.done svg {
+            stroke: white;
+        }
+
+        .ios-thumbnail {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1.5px solid rgba(0, 0, 0, 0.06);
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f2f2f7;
+        }
+
+        .ios-thumbnail:active {
+            transform: scale(0.95);
+        }
+
+        .ios-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            display: block;
+        }
+
+        .ios-thumbnail.completed-thumb {
+            border-color: #34C759;
+        }
+
+        .ios-media-badge {
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-left: 4px;
+            display: inline-block;
+        }
+
+        .ios-media-badge.image {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+        }
+
+        .ios-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #8e8e93;
+            text-align: center;
+            padding: 20px 16px;
+        }
+
+        .ios-empty svg {
+            width: 40px;
+            height: 40px;
+            stroke: #c7c7cc;
+            margin-bottom: 10px;
+        }
+
+        .ios-empty p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .ios-empty .sub {
+            font-size: 12px;
+            font-weight: 400;
+            color: #8e8e93;
+            margin-top: 2px;
+        }
+
+        @media (max-width: 480px) {
+            .ios-event-item { padding: 6px 8px; }
+            .ios-event-item .event-title { font-size: 13px; }
+            .ios-event-item .event-date { font-size: 11px; }
+            .ios-check { width: 20px; height: 20px; }
+            .ios-thumbnail { width: 28px; height: 28px; }
+        }
+
+        /* ============================================
+           IOS MODAL
+        ============================================ */
+        .ios-modal {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        @media (min-width: 640px) {
+            .ios-modal { align-items: center; }
+        }
+
+        .ios-modal-content {
+            background: #f2f2f7;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px 20px 0 0;
+            padding: 16px 20px 24px;
+            position: relative;
+            z-index: 10;
+            animation: slideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        @media (min-width: 640px) {
+            .ios-modal-content {
+                border-radius: 20px;
+                max-width: 480px;
+                padding: 24px;
+            }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .ios-modal-handle {
+            width: 36px;
+            height: 5px;
+            background: rgba(60, 60, 67, 0.18);
+            border-radius: 3px;
+            margin: 0 auto 16px;
+        }
+
+        .ios-modal h2 {
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .ios-modal .subtitle {
+            font-size: 14px;
+            color: #8e8e93;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .ios-image-container {
+            width: 100%;
+            max-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(118, 118, 128, 0.06);
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            min-height: 120px;
+        }
+
+        .ios-image-container img {
+            width: 100%;
+            height: auto;
+            max-height: 50vh;
+            object-fit: contain;
+            border-radius: 14px;
+        }
+
+        .ios-image-container .placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            color: #8e8e93;
+            text-align: center;
+        }
+
+        .ios-image-container .placeholder svg {
+            margin-bottom: 10px;
+        }
+
+        .ios-btn {
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            width: 100%;
+        }
+
+        .ios-btn:active {
+            transform: scale(0.97);
+        }
+
+        .ios-btn.primary {
+            background: #007AFF;
+            color: white;
+            box-shadow: 0 2px 12px rgba(0, 122, 255, 0.3);
+        }
+
+        .ios-btn.primary:active {
+            background: #0066d9;
+        }
+
+        .ios-btn.secondary {
+            background: #f2f2f7;
+            color: #007AFF;
+        }
+
+        .ios-btn.secondary:active {
+            background: #e5e5ea;
+        }
+
+        .ios-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .ios-input {
+            width: 100%;
+            background: rgba(118, 118, 128, 0.08);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #1a1a1a;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+            -webkit-appearance: none;
+        }
+
+        .ios-input:focus {
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+        }
+
+        .ios-input::placeholder {
+            color: #8e8e93;
+        }
+        
+        select.ios-input {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%238e8e93' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position-x: 98%;
+            background-position-y: 50%;
+        }
+
+        .ios-progress {
+            background: rgba(118, 118, 128, 0.15);
+            border-radius: 6px;
+            height: 4px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .ios-progress-bar {
+            height: 100%;
+            background: #007AFF;
+            border-radius: 6px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .ios-error {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ios-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #8e8e93;
+            display: block;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .ios-divider {
+            border: none;
+            border-top: 0.5px solid rgba(0, 0, 0, 0.06);
+            margin: 12px 0;
+        }
+
+        .ios-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .ios-modal-content { padding: 12px 14px 20px; }
+            .ios-modal h2 { font-size: 18px; }
+            .ios-btn { font-size: 15px; padding: 12px 16px; }
+            .ios-input { padding: 10px 12px; font-size: 15px; }
+        }
+
+        /* ============================================
+           LANDSCAPE
+        ============================================ */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .ios-calendar { 
+                max-height: 200px !important; 
+                min-height: 120px !important;
+            }
+            .ios-calendar .day-cell { font-size: 11px !important; min-height: 24px !important; }
+            .ios-events { max-height: 35vh !important; min-height: 100px !important; }
+            .ios-header h1 { font-size: 18px !important; }
+            .app-container { padding: 4px 12px 8px 12px !important; }
+            .ios-grid { gap: 6px !important; }
+            .ios-events-header { padding: 4px 10px !important; }
+            .ios-events-list { padding: 4px 8px !important; }
+            .ios-event-item { padding: 4px 6px !important; margin-bottom: 3px !important; }
+            .ios-event-item .event-title { font-size: 11px !important; }
+            .ios-calendar .month-nav { padding: 4px 10px 2px 10px !important; }
+            .ios-calendar .weekdays { padding: 0 6px 0 6px !important; }
+            .ios-calendar .days-grid { padding: 0 6px 2px 6px !important; gap: 1px !important; }
+            .ios-calendar .legend { display: none !important; }
+            .ios-calendar .totals { padding: 2px 0 !important; font-size: 8px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="loading" style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:20px;background:#f2f2f7;">
+            <div style="width:36px;height:36px;border:3px solid rgba(0,122,255,0.15);border-top-color:#007AFF;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+            <span style="color:#8e8e93;font-size:16px;font-weight:500;">Carregando...</span>
+        </div>
+        <style>
+            @keyframes spin { to { transform: rotate(360deg); } }
+        </style>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURAÇÃO
+        // ============================================
+        const GOOGLE_SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwms4JavFxbp1XMvW-XCLzZNTN4srw-tVtonzn9m7IiHApVNDIO-0SG_xEhcbAOtbhqfA/exec";
+
+        // ============================================
+        // ESTADO GLOBAL
+        // ============================================
+        let state = {
+            activeTab: 'cidades',
+            syncStatus: 'offline',
+            searchTerm: '',
+            isUploadingPdf: false,
+            isUploadingMedia: false,
+            uploadProgress: 0,
+            uploadStatus: '',
+            uploadError: '',
+            cidades: [],
+            aniversariantes: [],
+            datasComemorativas: [],
+            isEditModalOpen: false,
+            editingItem: null,
+            editType: '',
+            isImageUploadModalOpen: false,
+            taskToComplete: null,
+            taskTypeToComplete: '',
+            tempImageBase64: '',
+            tempFileName: '',
+            viewMonth: new Date().getMonth(),
+            viewYear: new Date().getFullYear(),
+            selectedDay: new Date().getDate(),
+            
+            isAddModalOpen: false,
+            newItem: { tipo: 'cidades', titulo: '', data: '', extra: '' }
+        };
+
+        let isSaving = false;
+        let updateTimeout = null;
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+        const currentDay = currentDate.getDate();
+        const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        const weekDays = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
+
+        // ============================================
+        // FUNÇÕES
+        // ============================================
+        const isImageUrl = (url) => {
+            if (!url || typeof url !== 'string') return false;
+            return url.match(/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i) !== null ||
+                   url.includes('lh3.googleusercontent.com') ||
+                   url.includes('drive.google.com') ||
+                   url.includes('googleusercontent.com');
+        };
+
+        const getDriveImageUrl = (url) => {
+            if (!url) return '';
+            if (url.includes('lh3.googleusercontent.com')) return url;
+            const match = url.match(/\/d\/([^\/]+)/);
+            if (match) return 'https://lh3.googleusercontent.com/d/' + match[1];
+            const idMatch = url.match(/id=([^&]+)/);
+            if (idMatch) return 'https://lh3.googleusercontent.com/d/' + idMatch[1];
+            return url;
+        };
+
+        const formatIncomingDate = (dateStr, tabType) => {
+            if (!dateStr) return "";
+            const str = String(dateStr).trim();
+            
+            const isoMatch = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+            if (isoMatch) {
+                const day = isoMatch[3];
+                const month = isoMatch[2];
+                if (tabType === 'aniversariantes') return `${day}/${month}`;
+                else {
+                    const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                    return `${day} de ${meses[parseInt(month, 10) - 1]}`;
+                }
+            }
+            
+            const d = new Date(str);
+            if (!isNaN(d.getTime()) && str.includes("GMT")) {
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                if (tabType === 'aniversariantes') return `${day}/${month}`;
+                else {
+                    const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                    return `${day} de ${meses[d.getMonth()]}`;
+                }
+            }
+            
+            return str;
+        };
+
+        const extractDayMonth = (dateString) => {
+            if (!dateString) return null;
+            const str = String(dateString).trim();
+            
+            const slashMatch = str.match(/^(\d{1,2})\/(\d{1,2})/);
+            if (slashMatch) return { day: parseInt(slashMatch[1]), month: parseInt(slashMatch[2]) - 1 };
+            
+            const monthMap = {
+                'janeiro': 0, 'fevereiro': 1, 'março': 2, 'abril': 3, 'maio': 4, 'junho': 5,
+                'julho': 6, 'agosto': 7, 'setembro': 8, 'outubro': 9, 'novembro': 10, 'dezembro': 11,
+                'jan': 0, 'fev': 1, 'mar': 2, 'abr': 3, 'mai': 4, 'jun': 5,
+                'jul': 6, 'ago': 7, 'set': 8, 'out': 9, 'nov': 10, 'dez': 11
+            };
+            
+            const monthMatch = str.match(/(\d{1,2})\s+de\s+([a-zA-ZçÇ]+)/i);
+            if (monthMatch) {
+                const day = parseInt(monthMatch[1]);
+                const monthName = monthMatch[2].toLowerCase();
+                if (monthMap[monthName] !== undefined) return { day, month: monthMap[monthName] };
+            }
+            
+            const isoMatch = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+            if (isoMatch) return { day: parseInt(isoMatch[3]), month: parseInt(isoMatch[2]) - 1 };
+            
+            const dateObj = new Date(str);
+            if (!isNaN(dateObj.getTime())) return { day: dateObj.getDate(), month: dateObj.getMonth() };
+            
+            return null;
+        };
+
+        const isEventOnDay = (dateString, day, month) => {
+            const parsed = extractDayMonth(dateString);
+            if (!parsed) return false;
+            return parsed.day === day && parsed.month === month;
+        };
+
+        const getEventsForDay = (day, month, year) => {
+            let events = [];
+            const activeTab = state.activeTab;
+            
+            if (activeTab === 'cidades' || activeTab === 'all') {
+                events = events.concat(state.cidades.filter(c => isEventOnDay(c.data, day, month)).map(c => ({ ...c, type: 'cidades' })));
+            }
+            if (activeTab === 'aniversariantes' || activeTab === 'all') {
+                events = events.concat(state.aniversariantes.filter(a => isEventOnDay(a.data, day, month)).map(a => ({ ...a, type: 'aniversariantes' })));
+            }
+            if (activeTab === 'datas' || activeTab === 'all') {
+                events = events.concat(state.datasComemorativas.filter(d => isEventOnDay(d.data, day, month)).map(d => ({ ...d, type: 'datas' })));
+            }
+            return events;
+        };
+
+        const getEventsForMonth = (month, year) => {
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            let allEvents = [];
+            for (let d = 1; d <= daysInMonth; d++) {
+                allEvents = allEvents.concat(getEventsForDay(d, month, year));
+            }
+            return allEvents;
+        };
+
+        const hasEventOnDay = (day, month, year) => {
+            return getEventsForDay(day, month, year).length > 0;
+        };
+
+        const allEventsCompletedOnDay = (day, month, year) => {
+            const events = getEventsForDay(day, month, year);
+            if (events.length === 0) return false;
+            return events.every(e => e.arteFeita === true);
+        };
+
+        const getEventTypesOnDay = (day, month, year) => {
+            const events = getEventsForDay(day, month, year);
+            const types = events.map(e => e.type);
+            return [...new Set(types)].slice(0, 3);
+        };
+
+        const filterData = (dataArray, key1, key2) => {
+            if(!state.searchTerm) return dataArray;
+            return dataArray.filter(item => 
+                (item[key1] && item[key1].toLowerCase().includes(state.searchTerm.toLowerCase())) ||
+                (item[key2] && item[key2].toLowerCase().includes(state.searchTerm.toLowerCase()))
+            );
+        };
+
+        // ============================================
+        // FUNÇÕES DE API
+        // ============================================
+        const fetchDataFromSheets = async (isSilent = false) => {
+            if (!isSilent) {
+                state.syncStatus = 'syncing';
+                updateUI();
+            }
+            try {
+                const response = await fetch(`${GOOGLE_SHEETS_WEB_APP_URL}?action=get_all`);
+                const data = await response.json();
+                
+                if(data.cidades) state.cidades = data.cidades.map(item => ({...item, data: formatIncomingDate(item.data, 'cidades')}));
+                if(data.aniversariantes) state.aniversariantes = data.aniversariantes.map(item => ({...item, data: formatIncomingDate(item.data, 'aniversariantes')}));
+                if(data.datas) state.datasComemorativas = data.datas.map(item => ({...item, data: formatIncomingDate(item.data, 'datas')}));
+                
+                state.syncStatus = 'online';
+                updateUI();
+            } catch (error) {
+                state.syncStatus = 'offline';
+                updateUI();
+            }
+        };
+
+        const saveToSheets = async (action, payload) => {
+            if(!GOOGLE_SHEETS_WEB_APP_URL) return false;
+            
+            isSaving = true;
+            state.syncStatus = 'syncing';
+            updateUI();
+            
+            try {
+                const payloadToSend = { ...payload };
+                if (payload.imagem && typeof payload.imagem === 'string' && payload.imagem.startsWith('data:image')) {
+                    payloadToSend.imagem = payload.imagem;
+                }
+                
+                const res = await fetch(GOOGLE_SHEETS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action, ...payloadToSend })
+                });
+                const data = await res.json();
+                
+                if (data.imageUrl && isImageUrl(data.imageUrl)) {
+                    const updatedItem = { ...payload, imagem: data.imageUrl };
+                    if (action === 'update_cidade') state.cidades = state.cidades.map(c => c.id === payload.id ? updatedItem : c);
+                    else if (action === 'update_aniversariante') state.aniversariantes = state.aniversariantes.map(a => a.id === payload.id ? updatedItem : a);
+                    else if (action === 'update_data') state.datasComemorativas = state.datasComemorativas.map(d => d.id === payload.id ? updatedItem : d);
+                }
+                
+                state.syncStatus = 'online';
+                isSaving = false;
+                updateUI();
+                return data;
+            } catch (error) {
+                state.syncStatus = 'offline';
+                isSaving = false;
+                updateUI();
+                return null;
+            }
+        };
+
+        // ============================================
+        // FUNÇÕES DE NEGÓCIO - LIMITE 1GB
+        // ============================================
+        const handleImageCompression = (file, callback) => {
+            if (!file) return;
+            
+            const fileSize = file.size;
+            const maxSize = 1024 * 1024 * 1024; // 1GB
+            
+            if (fileSize > maxSize) {
+                alert(`O arquivo é muito grande (${(fileSize / 1024 / 1024 / 1024).toFixed(2)}GB). O limite é 1GB.`);
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = event => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    // Reduz apenas se for maior que 2000px
+                    const MAX_WIDTH = 2000;
+                    if (width > MAX_WIDTH) {
+                        height = height * (MAX_WIDTH / width);
+                        width = MAX_WIDTH;
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const base64 = canvas.toDataURL('image/jpeg', 0.85);
+                    callback(base64, file.name);
+                };
+                reader.onerror = function() {
+                    // Se falhar ao carregar como imagem, tenta enviar como base64 puro
+                    // (útil para vídeos ou arquivos muito grandes)
+                    const base64 = event.target.result;
+                    callback(base64, file.name);
+                };
+            };
+        };
+
+        const debouncedUpdateUI = () => {
+            if (updateTimeout) clearTimeout(updateTimeout);
+            updateTimeout = setTimeout(() => { updateTimeout = null; updateUI(); }, 300);
+        };
+
+        const toggleArteFeita = async (item, type, isDone, imageBase64 = "") => {
+            const updatedItem = { ...item, arteFeita: isDone, imagem: imageBase64 || item.imagem || "" };
+            
+            if (type === 'cidades') state.cidades = state.cidades.map(c => c.id === item.id ? updatedItem : c);
+            else if (type === 'aniversariantes') state.aniversariantes = state.aniversariantes.map(a => a.id === item.id ? updatedItem : a);
+            else if (type === 'datas') state.datasComemorativas = state.datasComemorativas.map(d => d.id === item.id ? updatedItem : d);
+            
+            state.isUploadingMedia = true;
+            state.uploadProgress = 10;
+            state.uploadStatus = 'Preparando...';
+            state.uploadError = '';
+            updateUI();
+            
+            let progress = 10;
+            const progressInterval = setInterval(() => {
+                if (progress < 85) {
+                    progress += 5;
+                    state.uploadProgress = progress;
+                    state.uploadStatus = progress < 50 ? 'Enviando...' : 'Salvando...';
+                    debouncedUpdateUI();
+                }
+            }, 500);
+            
+            try {
+                const result = await saveToSheets(`update_${type === 'datas' ? 'data' : type === 'cidades' ? 'cidade' : 'aniversariante'}`, updatedItem);
+                clearInterval(progressInterval);
+                
+                if (result && result.status === 'error') {
+                    state.uploadError = '❌ ' + (result.message || 'Erro no upload.');
+                    state.isUploadingMedia = false;
+                    updateUI();
+                    return;
+                }
+                
+                if (result && result.imageUrl && isImageUrl(result.imageUrl)) {
+                    state.uploadProgress = 100;
+                    state.uploadStatus = 'Concluído! ✅';
+                    updateUI();
+                    
+                    const finalItem = { ...updatedItem, imagem: result.imageUrl };
+                    if (type === 'cidades') state.cidades = state.cidades.map(c => c.id === finalItem.id ? finalItem : c);
+                    else if (type === 'aniversariantes') state.aniversariantes = state.aniversariantes.map(a => a.id === finalItem.id ? finalItem : a);
+                    else if (type === 'datas') state.datasComemorativas = state.datasComemorativas.map(d => d.id === finalItem.id ? finalItem : d);
+                    
+                    setTimeout(() => {
+                        state.isUploadingMedia = false;
+                        state.uploadProgress = 0;
+                        state.uploadStatus = '';
+                        state.uploadError = '';
+                        state.isImageUploadModalOpen = false;
+                        state.taskToComplete = null;
+                        state.taskTypeToComplete = '';
+                        state.tempImageBase64 = '';
+                        state.tempFileName = '';
+                        updateUI();
+                    }, 1200);
+                } else {
+                    state.uploadError = '❌ Erro ao salvar. Tente novamente.';
+                    state.isUploadingMedia = false;
+                    updateUI();
+                }
+            } catch (error) {
+                clearInterval(progressInterval);
+                state.uploadError = '❌ Erro de conexão.';
+                state.isUploadingMedia = false;
+                updateUI();
+            }
+        };
+
+        const handleCheckClick = (item, type) => {
+            if (!item.arteFeita) {
+                state.taskToComplete = item;
+                state.taskTypeToComplete = type;
+                state.tempImageBase64 = '';
+                state.tempFileName = '';
+                state.uploadProgress = 0;
+                state.uploadStatus = '';
+                state.uploadError = '';
+                state.isUploadingMedia = false;
+                state.isImageUploadModalOpen = true;
+                updateUI();
+            } else {
+                const pwd = prompt("Senha de administrador (2026) para desmarcar:");
+                if (pwd === "2026") {
+                    toggleArteFeita(item, type, false, "");
+                } else if (pwd !== null) {
+                    alert("Senha incorreta!");
+                }
+            }
+        };
+
+        const confirmTaskCompletion = () => {
+            if (!state.tempImageBase64 || state.tempImageBase64 === 'loading') {
+                alert("Aguarde a imagem ser processada.");
+                return;
+            }
+            if (state.isUploadingMedia) {
+                alert("Já está enviando. Aguarde...");
+                return;
+            }
+            toggleArteFeita(state.taskToComplete, state.taskTypeToComplete, true, state.tempImageBase64);
+        };
+
+        const openEditModal = (item, type) => {
+            state.editingItem = { ...item };
+            state.editType = type;
+            state.isEditModalOpen = true;
+            updateUI();
+        };
+
+        const handleSaveEdit = async () => {
+            const itemToSave = { ...state.editingItem };
+            if (state.editType === 'datas') state.datasComemorativas = state.datasComemorativas.map(d => d.id === state.editingItem.id ? itemToSave : d);
+            else if (state.editType === 'cidades') state.cidades = state.cidades.map(c => c.id === state.editingItem.id ? itemToSave : c);
+            else if (state.editType === 'aniversariantes') state.aniversariantes = state.aniversariantes.map(a => a.id === state.editingItem.id ? itemToSave : a);
+            
+            state.isEditModalOpen = false;
+            updateUI();
+            
+            const typeStr = state.editType === 'datas' ? 'update_data' : state.editType === 'cidades' ? 'update_cidade' : 'update_aniversariante';
+            const result = await saveToSheets(typeStr, itemToSave);
+            if (result && result.imageUrl && isImageUrl(result.imageUrl)) {
+                const finalItem = { ...itemToSave, imagem: result.imageUrl };
+                if (state.editType === 'datas') state.datasComemorativas = state.datasComemorativas.map(d => d.id === finalItem.id ? finalItem : d);
+                else if (state.editType === 'cidades') state.cidades = state.cidades.map(c => c.id === finalItem.id ? finalItem : c);
+                else if (state.editType === 'aniversariantes') state.aniversariantes = state.aniversariantes.map(a => a.id === finalItem.id ? finalItem : a);
+                updateUI();
+            }
+        };
+
+        // ============================================
+        // PROCESSAMENTO DE PDF
+        // ============================================
+        const processPdfText = (text) => {
+            const upperText = text.toUpperCase();
+            let category = null;
+            if (upperText.includes("ANIVERSÁRIO DAS CIDADES") || upperText.includes("CIDADES")) category = "cidades";
+            else if (upperText.includes("DATAS COMEMORATIVAS")) category = "datas";
+            else if (upperText.includes("NOME ASSESSOR") || upperText.includes("ASSESSOR")) category = "aniversariantes";
+            if (!category) return alert("Não foi possível identificar a categoria.");
+
+            const newItems = [];
+            const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            const isIgnored = (str) => /^(DATA|CIDADE|COMEMORAÇÃO|NOME ASSESSOR|CHICO GUARNIERI|DEPUTADO|AGENDA|ANIVERSÁRIO|DATAS|PAGE|FOLHA|---)/i.test(str) || str.length <= 2;
+
+            const pushItem = (cat, arr, date, desc) => {
+                desc = desc.trim();
+                if (!desc || desc.length < 2) return;
+                const id = Date.now() + Math.random();
+                if (cat === 'cidades') arr.push({ id, data: date, cidade: desc, anoFundacao: null, arteFeita: false, imagem: "" });
+                else if (cat === 'datas') arr.push({ id, data: date, comemoracao: desc, arteFeita: false, imagem: "" });
+                else arr.push({ id, data: date, nome: desc, arteFeita: false, imagem: "" });
+            };
+
+            if (category === "cidades" || category === "datas") {
+                const dateRegex = /^.*?(\d{1,2}\s+de\s+[a-zA-ZçÇ]+)\s*(.*)$/i;
+                let currentDateVal = null, currentDesc = "";
+                for (const line of lines) {
+                    let cleanLine = line.replace(/^[,;'"\-]+|[,;'"\-]+$/g, '').trim();
+                    if (!cleanLine || isIgnored(cleanLine)) continue;
+                    const match = cleanLine.match(dateRegex);
+                    if (match) {
+                        if (currentDateVal && currentDesc) pushItem(category, newItems, currentDateVal, currentDesc);
+                        currentDateVal = match[1].trim();
+                        currentDesc = match[2].replace(/^[,;'"\-\s]+/, '').trim();
+                    } else if (currentDateVal) {
+                        currentDesc += (currentDesc ? " " : "") + cleanLine;
+                    }
+                }
+                if (currentDateVal && currentDesc) pushItem(category, newItems, currentDateVal, currentDesc);
+            } else if (category === "aniversariantes") {
+                const dateRegex = /^.*?(\d{2}\/\d{2})\s*(.*)$/i;
+                let currentDateVal = null, currentDesc = "";
+                for (const line of lines) {
+                    let cleanLine = line.replace(/^[,;'"\-]+|[,;'"\-]+$/g, '').trim();
+                    if (!cleanLine || isIgnored(cleanLine)) continue;
+                    const match = cleanLine.match(dateRegex);
+                    if (match) {
+                        if (currentDateVal && currentDesc) pushItem(category, newItems, currentDateVal, currentDesc);
+                        currentDateVal = match[1].trim();
+                        currentDesc = match[2].replace(/^[,;'"\-\s]+/, '').trim();
+                    } else if (currentDateVal) {
+                        currentDesc += (currentDesc ? " " : "") + cleanLine;
+                    }
+                }
+                if (currentDateVal && currentDesc) pushItem(category, newItems, currentDateVal, currentDesc);
+            }
+
+            if (newItems.length > 0) {
+                if (confirm(`Encontrados ${newItems.length} novos itens. Salvar?`)) {
+                    syncBatchToSheets(category, newItems);
+                }
+            } else {
+                alert("Nenhum dado válido encontrado.");
+            }
+        };
+
+        const syncBatchToSheets = async (category, items) => {
+            if (category === 'cidades') state.cidades = [...items, ...state.cidades];
+            if (category === 'aniversariantes') state.aniversariantes = [...items, ...state.aniversariantes];
+            if (category === 'datas') state.datasComemorativas = [...items, ...state.datasComemorativas];
+            state.activeTab = category;
+            updateUI();
+            
+            if (!GOOGLE_SHEETS_WEB_APP_URL) return;
+            isSaving = true;
+            state.syncStatus = 'syncing';
+            updateUI();
+            
+            let sheetName = '', rows = [];
+            if (category === 'cidades') { sheetName = 'Cidades'; rows = items.map(i => [i.id, i.data, i.cidade, i.anoFundacao || "", i.arteFeita, ""]); }
+            else if (category === 'aniversariantes') { sheetName = 'Aniversariantes'; rows = items.map(i => [i.id, i.data, i.nome, i.arteFeita, ""]); }
+            else if (category === 'datas') { sheetName = 'Datas_Comemorativas'; rows = items.map(i => [i.id, i.data, i.comemoracao, i.arteFeita, ""]); }
+
+            try {
+                await fetch(GOOGLE_SHEETS_WEB_APP_URL, {
+                    method: 'POST', mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'batch_add', sheetName, rows })
+                });
+                state.syncStatus = 'online';
+            } catch (error) { state.syncStatus = 'offline'; }
+            isSaving = false;
+            updateUI();
+        };
+
+        const handleFileUpload = async (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            state.isUploadingPdf = true;
+            updateUI();
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let fullText = "";
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    let lastY = -1;
+                    let pageText = "";
+                    for (const item of textContent.items) {
+                        if (lastY !== -1 && Math.abs(lastY - item.transform[5]) > 5) pageText += "\n";
+                        pageText += item.str + " ";
+                        lastY = item.transform[5];
+                    }
+                    fullText += pageText + "\n";
+                }
+                processPdfText(fullText);
+            } catch (error) {
+                alert("Erro ao ler o PDF.");
+            }
+            state.isUploadingPdf = false;
+            updateUI();
+            event.target.value = '';
+        };
+
+        // ============================================
+        // RENDERIZAÇÃO
+        // ============================================
+        const renderApp = () => {
+            const { viewMonth, viewYear, selectedDay, activeTab } = state;
+            const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+            const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+            const prevMonthDays = new Date(viewYear, viewMonth, 0).getDate();
+            
+            const days = [];
+            for (let i = firstDay - 1; i >= 0; i--) days.push({ day: prevMonthDays - i, isCurrentMonth: false });
+            for (let i = 1; i <= daysInMonth; i++) days.push({ day: i, isCurrentMonth: true });
+            const remaining = 42 - days.length;
+            for (let i = 1; i <= remaining; i++) days.push({ day: i, isCurrentMonth: false });
+
+            const monthEvents = getEventsForMonth(viewMonth, viewYear);
+            const dayEvents = getEventsForDay(selectedDay, viewMonth, viewYear);
+            const filteredDayEvents = state.searchTerm ?
+                dayEvents.filter(e => {
+                    const title = e.cidade || e.nome || e.comemoracao || '';
+                    return title.toLowerCase().includes(state.searchTerm.toLowerCase());
+                }) : dayEvents;
+
+            const totalCidades = state.cidades.length;
+            const totalAniversariantes = state.aniversariantes.length;
+            const totalDatas = state.datasComemorativas.length;
+
+            let html = `
+                <div class="app-container">
+                    
+                    <!-- HEADER -->
+                    <div class="ios-header">
+                        <h1>Agenda</h1>
+                        <div class="ios-header-actions">
+                            <div class="ios-status-dot ${state.syncStatus === 'online' ? 'online' : state.syncStatus === 'syncing' ? 'syncing' : 'offline'}"></div>
+                            
+                            <!-- BOTÃO DE ADICIONAR EVENTO MANUALMENTE -->
+                            <button onclick="openAddModal()" class="ios-btn-icon" title="Adicionar Evento Manualmente">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+
+                            <input type="file" id="pdf-upload" accept=".pdf" class="hidden" onchange="handleFileUpload(event)" />
+                            <button onclick="document.getElementById('pdf-upload').click()" class="ios-btn-icon" ${state.isUploadingPdf ? 'disabled' : ''}>
+                                ${state.isUploadingPdf ? 
+                                    `<span class="animate-spin w-4 h-4 border-2 border-[#007AFF] border-t-transparent rounded-full"></span>` :
+                                    `
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                    `
+                                }
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SEARCH -->
+                    <div class="ios-search-wrap">
+                        <div class="ios-search-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        </div>
+                        <input type="text" placeholder="Buscar" value="${state.searchTerm}" oninput="updateSearch(this.value)" class="ios-search" />
+                    </div>
+
+                    <!-- SEGMENTED CONTROL -->
+                    <div class="ios-segmented">
+                        <button onclick="setActiveTab('cidades')" class="ios-segment ${activeTab === 'cidades' ? 'active' : ''}">
+                            Cidades <span class="badge">${totalCidades}</span>
+                        </button>
+                        <button onclick="setActiveTab('aniversariantes')" class="ios-segment ${activeTab === 'aniversariantes' ? 'active' : ''}">
+                            Assessores <span class="badge">${totalAniversariantes}</span>
+                        </button>
+                        <button onclick="setActiveTab('datas')" class="ios-segment ${activeTab === 'datas' ? 'active' : ''}">
+                            Datas <span class="badge">${totalDatas}</span>
+                        </button>
+                    </div>
+
+                    <!-- GRID -->
+                    <div class="ios-grid">
+                        
+                        <!-- CALENDAR -->
+                        <div class="ios-calendar">
+                            <div class="month-nav">
+                                <button class="nav-btn" onclick="changeMonth(-1)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                                </button>
+                                <span class="month-title">${monthNames[viewMonth]} ${viewYear}</span>
+                                <button class="nav-btn" onclick="changeMonth(1)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                </button>
+                            </div>
+                            
+                            <div class="weekdays">
+                                ${weekDays.map(day => `<div class="weekday">${day}</div>`).join('')}
+                            </div>
+                            
+                            <div class="days-grid">
+                                ${days.map((day, index) => {
+                                    const isToday = day.isCurrentMonth && day.day === currentDay && viewMonth === currentMonth && viewYear === currentYear;
+                                    const isSelected = day.isCurrentMonth && day.day === selectedDay && viewMonth === state.viewMonth && viewYear === state.viewYear;
+                                    const isWeekend = index % 7 === 0 || index % 7 === 6;
+                                    const hasEvent = day.isCurrentMonth && hasEventOnDay(day.day, viewMonth, viewYear);
+                                    const allCompleted = day.isCurrentMonth && allEventsCompletedOnDay(day.day, viewMonth, viewYear);
+                                    const eventTypes = day.isCurrentMonth ? getEventTypesOnDay(day.day, viewMonth, viewYear) : [];
+                                    
+                                    let classes = 'day-cell';
+                                    if (!day.isCurrentMonth) classes += ' other-month';
+                                    else if (isToday) classes += ' today';
+                                    else if (isWeekend) classes += ' weekend';
+                                    if (hasEvent && !isToday && !isSelected) classes += ' has-event';
+                                    if (hasEvent && allCompleted && !isToday && !isSelected) classes += ' has-event-completed';
+                                    if (isSelected && !isToday) classes += ' selected';
+                                    
+                                    return `
+                                        <div class="${classes}" onclick="selectDay(${day.day})" ondblclick="openAddModalAtDate(${day.day})">
+                                            ${day.day}
+                                            ${hasEvent ? `
+                                                <div class="event-indicator">
+                                                    ${eventTypes.map(type => `<div class="event-dot ${type}"></div>`).join('')}
+                                                    ${eventTypes.length > 3 ? `<span style="font-size:5px;color:#8e8e93;font-weight:600;">+${eventTypes.length - 3}</span>` : ''}
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                            
+                            <div class="legend">
+                                <span><span class="dot blue"></span> Cid</span>
+                                <span><span class="dot orange"></span> Ass</span>
+                                <span><span class="dot purple"></span> Dat</span>
+                                <span><span class="dot green"></span> ✓</span>
+                            </div>
+                            
+                            <div class="totals">
+                                <span>📌 ${monthEvents.length}</span>
+                                <span>✅ ${monthEvents.filter(e => e.arteFeita).length}</span>
+                            </div>
+                        </div>
+
+                        <!-- EVENTS -->
+                        <div class="ios-events">
+                            <div class="ios-events-header">
+                                <h3>
+                                    ${monthNames[viewMonth]} ${viewYear}
+                                    <span style="font-weight:400;color:#8e8e93;font-size:13px;">· ${selectedDay}</span>
+                                    ${activeTab === 'cidades' ? '🏙️' : activeTab === 'aniversariantes' ? '🎂' : '📅'}
+                                </h3>
+                                <span class="count">${filteredDayEvents.length}</span>
+                            </div>
+                            
+                            <div class="ios-events-list hide-scrollbar">
+                                ${filteredDayEvents.length > 0 ? filteredDayEvents.map(item => {
+                                    const mediaUrl = item.imagem || '';
+                                    const isImage = mediaUrl && isImageUrl(mediaUrl);
+                                    const title = item.cidade || item.nome || item.comemoracao || 'Sem título';
+                                    const date = item.data || '';
+                                    const type = item.type || 'cidades';
+                                    const isDone = item.arteFeita || false;
+                                    const typeClass = type === 'cidades' ? 'cidade-event' : type === 'aniversariantes' ? 'aniversariante-event' : 'data-event';
+                                    const hasMedia = mediaUrl && mediaUrl.length > 10 && isImage;
+                                    
+                                    let mediaHtml = '';
+                                    if (hasMedia) {
+                                        const imageUrl = getDriveImageUrl(mediaUrl);
+                                        mediaHtml = `
+                                            <div class="ios-thumbnail ${isDone ? 'completed-thumb' : ''}" onclick="event.stopPropagation(); window.open('${imageUrl}', '_blank')">
+                                                <img src="${imageUrl}" alt="Arte" loading="lazy" />
+                                            </div>
+                                        `;
+                                    }
+                                    
+                                    return `
+                                        <div class="ios-event-item ${typeClass} ${isDone ? 'completed' : ''}" onclick="openEditModal(${JSON.stringify(item).replace(/"/g, '&quot;')}, '${type}')">
+                                            <div class="event-info">
+                                                <div class="event-title">
+                                                    ${title}
+                                                    ${hasMedia ? `<span class="ios-media-badge image">🖼️</span>` : ''}
+                                                </div>
+                                                <div class="event-date">${date}</div>
+                                            </div>
+                                            <div class="event-actions">
+                                                ${mediaHtml}
+                                                <div class="ios-check ${isDone ? 'done' : ''}" onclick="event.stopPropagation(); handleCheckClick(${JSON.stringify(item).replace(/"/g, '&quot;')}, '${type}')">
+                                                    ${isDone ? `
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                                    ` : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('') : `
+                                    <div class="ios-empty">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                        <p>Nenhum evento</p>
+                                        <p class="sub">Selecione outro dia</p>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MODAL - ADD EVENT MANUALMENTE -->
+                    ${state.isAddModalOpen ? `
+                        <div class="ios-modal" onclick="if(event.target === this) closeAddModal()">
+                            <div class="ios-modal-content">
+                                <div class="ios-modal-handle"></div>
+                                <h2>Novo Evento</h2>
+                                <hr class="ios-divider" style="margin-bottom:12px;" />
+
+                                <div style="margin-bottom:12px;">
+                                    <label class="ios-label">Tipo de Evento</label>
+                                    <select onchange="updateNewItem('tipo', this.value)" class="ios-input">
+                                        <option value="cidades" ${state.newItem.tipo === 'cidades' ? 'selected' : ''}>Aniversário de Cidade</option>
+                                        <option value="aniversariantes" ${state.newItem.tipo === 'aniversariantes' ? 'selected' : ''}>Aniversário de Assessor</option>
+                                        <option value="datas" ${state.newItem.tipo === 'datas' ? 'selected' : ''}>Data Comemorativa</option>
+                                    </select>
+                                </div>
+
+                                <div style="margin-bottom:12px;">
+                                    <label class="ios-label">${state.newItem.tipo === 'cidades' ? 'Nome da Cidade' : state.newItem.tipo === 'aniversariantes' ? 'Nome do Assessor' : 'Nome da Comemoração'}</label>
+                                    <input type="text" value="${state.newItem.titulo}" onchange="updateNewItem('titulo', this.value)" class="ios-input" placeholder="Digite o nome..." />
+                                </div>
+
+                                <div style="margin-bottom:12px;">
+                                    <label class="ios-label">Data</label>
+                                    <input type="text" value="${state.newItem.data}" onchange="updateNewItem('data', this.value)" class="ios-input" placeholder="${state.newItem.tipo === 'aniversariantes' ? 'Ex: 15/07' : 'Ex: 15 de Julho'}" />
+                                </div>
+
+                                ${state.newItem.tipo === 'cidades' ? `
+                                    <div style="margin-bottom:12px;">
+                                        <label class="ios-label">Ano de Fundação (Opcional)</label>
+                                        <input type="number" value="${state.newItem.extra}" onchange="updateNewItem('extra', this.value)" class="ios-input" placeholder="Ex: 1980" />
+                                    </div>
+                                ` : ''}
+
+                                <hr class="ios-divider" />
+                                <div class="ios-btn-group">
+                                    <button onclick="closeAddModal()" class="ios-btn secondary">Cancelar</button>
+                                    <button onclick="handleSaveNewEvent()" class="ios-btn primary">Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- MODAL - UPLOAD -->
+                    ${state.isImageUploadModalOpen ? `
+                        <div class="ios-modal" onclick="if(event.target === this) closeImageModal()">
+                            <div class="ios-modal-content">
+                                <div class="ios-modal-handle"></div>
+                                <h2>Finalizar Arte</h2>
+                                <p class="subtitle">Selecione a imagem final (máx 1GB)</p>
+                                
+                                <div style="margin-bottom:16px;">
+                                    ${state.tempImageBase64 && state.tempImageBase64 !== 'loading' ? `
+                                        <div class="ios-image-container" style="min-height:120px;">
+                                            <img src="${state.tempImageBase64}" alt="Preview" style="max-height:30vh;" />
+                                            <p style="font-size:12px;color:#8e8e93;text-align:center;padding:8px;width:100%;">${state.tempFileName || 'Imagem selecionada'}</p>
+                                        </div>
+                                    ` : state.tempImageBase64 === 'loading' ? `
+                                        <div class="ios-image-container" style="min-height:120px;">
+                                            <div style="text-align:center;padding:16px;">
+                                                <div style="width:28px;height:28px;border:2.5px solid rgba(0,122,255,0.15);border-top-color:#007AFF;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;"></div>
+                                                <p style="font-weight:500;color:#1a1a1a;margin-top:10px;font-size:14px;">Processando...</p>
+                                            </div>
+                                        </div>
+                                    ` : `
+                                        <label class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-[#c7c7cc] rounded-xl cursor-pointer hover:bg-[#f2f2f7] transition-colors bg-[#f8f8fa]" style="border-color:#c7c7cc;">
+                                            <div class="flex flex-col items-center justify-center pt-3 pb-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                                <p class="mb-1 mt-2 text-sm text-[#8e8e93]"><span class="font-semibold text-[#007AFF]">Clique para enviar</span></p>
+                                                <p class="text-xs text-[#8e8e93]">JPG, PNG (máx 1GB)</p>
+                                            </div>
+                                            <input type="file" class="hidden" accept="image/*" onchange="handleImageSelect(event)" />
+                                        </label>
+                                    `}
+                                    
+                                    ${state.uploadError ? `
+                                        <div class="ios-error">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                            ${state.uploadError}
+                                        </div>
+                                    ` : ''}
+                                    
+                                    ${state.isUploadingMedia || state.uploadProgress > 0 ? `
+                                        <div style="margin-top:12px;">
+                                            <div class="ios-progress"><div class="ios-progress-bar" style="width:${state.uploadProgress}%;"></div></div>
+                                            <p style="text-align:center;font-size:12px;color:#8e8e93;margin-top:4px;">
+                                                ${state.uploadStatus || (state.uploadProgress < 100 ? `Enviando... ${state.uploadProgress}%` : 'Finalizando...')}
+                                            </p>
+                                        </div>
+                                    ` : ''}
+                                </div>
+
+                                <div class="ios-btn-group">
+                                    <button onclick="closeImageModal()" class="ios-btn secondary" ${state.isUploadingMedia || state.tempImageBase64 === 'loading' ? 'disabled' : ''}>
+                                        Cancelar
+                                    </button>
+                                    <button onclick="confirmTaskCompletion()" class="ios-btn primary" ${state.isUploadingMedia || state.tempImageBase64 === 'loading' || !state.tempImageBase64 ? 'disabled' : ''}>
+                                        ${state.isUploadingMedia ? 'A Transferir...' : 'Concluir Arte'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- MODAL - EDIT -->
+                    ${state.isEditModalOpen ? `
+                        <div class="ios-modal" onclick="if(event.target === this) closeEditModal()">
+                            <div class="ios-modal-content">
+                                <div class="ios-modal-handle"></div>
+                                <h2>Detalhes da Tarefa</h2>
+                                <hr class="ios-divider" style="margin-bottom:12px;" />
+                                
+                                <div style="${state.editingItem?.arteFeita ? 'md:flex md:gap-6' : ''}">
+                                    
+                                    <div style="${state.editingItem?.arteFeita ? 'md:w-1/2' : 'width:100%'}">
+                                        ${state.editType === 'cidades' ? `
+                                            <div style="margin-bottom:12px;">
+                                                <label class="ios-label">Nome da Cidade</label>
+                                                <input type="text" value="${state.editingItem?.cidade || ''}" onchange="updateEditingItem('cidade', this.value)" class="ios-input" />
+                                            </div>
+                                            <div style="margin-bottom:12px;">
+                                                <label class="ios-label">Data de Aniversário</label>
+                                                <input type="text" value="${state.editingItem?.data || ''}" onchange="updateEditingItem('data', this.value)" class="ios-input" />
+                                            </div>
+                                            <div style="margin-bottom:12px;">
+                                                <label class="ios-label">Ano de Fundação</label>
+                                                <input type="number" value="${state.editingItem?.anoFundacao || ''}" onchange="updateEditingItem('anoFundacao', this.value)" placeholder="Ex: 1980" class="ios-input" />
+                                            </div>
+                                        ` : ''}
+
+                                        ${state.editType === 'aniversariantes' ? `
+                                            <div style="margin-bottom:12px;">
+                                                <label class="ios-label">Nome do Assessor</label>
+                                                <input type="text" value="${state.editingItem?.nome || ''}" onchange="updateEditingItem('nome', this.value)" class="ios-input" />
+                                            </div>
+                                            <div style="margin-bottom:12px;">
+                                                <label class="ios-label">Data (DD/MM)</label>
+                                                <input type="text" value="${state.editingItem?.data || ''}" onchange="updateEditingItem('data', this.value)" class="ios-input" />
+                                            </div>
+                                        ` : ''}
+
+                                        ${state.editType === 'datas' ? `
+                                            <div style="margin-bottom:12px;">
+                                                <label class="ios-label">Comemoração</label>
+                                                <input type="text" value="${state.editingItem?.comemoracao || ''}" onchange="updateEditingItem('comemoracao', this.value)" class="ios-input" />
+                                            </div>
+                                            <div style="margin-bottom:12px;">
+                                                <label class="ios-label">Data</label>
+                                                <input type="text" value="${state.editingItem?.data || ''}" onchange="updateEditingItem('data', this.value)" class="ios-input" />
+                                            </div>
+                                        ` : ''}
+                                    </div>
+
+                                    ${state.editingItem?.arteFeita ? `
+                                        <div style="margin-top:16px;${state.editingItem?.arteFeita ? 'md:mt-0 md:w-1/2' : ''}">
+                                            <label class="ios-label" style="text-align:center;">Arte Concluída</label>
+                                            
+                                            <div class="ios-image-container">
+                                                ${(() => {
+                                                    const mediaUrl = state.editingItem?.imagem || '';
+                                                    const isImage = mediaUrl && isImageUrl(mediaUrl);
+                                                    if (mediaUrl && mediaUrl.length > 10 && isImage) {
+                                                        const imageUrl = getDriveImageUrl(mediaUrl);
+                                                        return `<img src="${imageUrl}" alt="Arte Finalizada" referrerpolicy="no-referrer" crossorigin="anonymous" loading="lazy" />`;
+                                                    }
+                                                    return `
+                                                        <div class="placeholder">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                                                            <p style="color:#8e8e93;font-size:13px;font-weight:500;">Arquivo não encontrado</p>
+                                                        </div>
+                                                    `;
+                                                })()}
+                                            </div>
+                                            
+                                            <div class="ios-btn-group" style="margin-top:12px;">
+                                                ${(() => {
+                                                    const mediaUrl = state.editingItem?.imagem || '';
+                                                    if (mediaUrl && mediaUrl.length > 10) {
+                                                        const imageUrl = getDriveImageUrl(mediaUrl);
+                                                        return `<a href="${imageUrl}" target="_blank" rel="noreferrer" download="Arte_${state.editingItem.id}.jpg" class="ios-btn secondary" style="text-align:center;padding:10px;font-size:14px;">Baixar Imagem</a>`;
+                                                    }
+                                                    return `<button disabled class="ios-btn" style="background:#f2f2f7;color:#8e8e93;text-align:center;padding:10px;font-size:14px;cursor:not-allowed;">Baixar Imagem</button>`;
+                                                })()}
+                                                
+                                                <button onclick="handleEditImageClick()" class="ios-btn secondary" style="text-align:center;padding:10px;font-size:14px;">
+                                                    ${(state.editingItem?.imagem && state.editingItem.imagem.length > 10) ? 'Alterar Imagem' : 'Adicionar Imagem'}
+                                                </button>
+                                                <input type="file" id="edit-image-input" accept="image/*" class="hidden" onchange="handleEditImageSelect(event)" />
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+
+                                <hr class="ios-divider" />
+                                <div class="ios-btn-group">
+                                    <button onclick="closeEditModal()" class="ios-btn secondary">Cancelar</button>
+                                    <button onclick="handleSaveEdit()" class="ios-btn primary">Salvar</button>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            return html;
+        };
+
+        // ============================================
+        // FUNÇÕES DE ATUALIZAÇÃO
+        // ============================================
+        const updateUI = () => {
+            const app = document.getElementById('app');
+            app.innerHTML = renderApp();
+        };
+
+        // ============================================
+        // FUNÇÕES GLOBAIS
+        // ============================================
+        window.setActiveTab = (tab) => {
+            state.activeTab = tab;
+            updateUI();
+        };
+
+        window.updateSearch = (value) => {
+            state.searchTerm = value;
+            updateUI();
+        };
+
+        window.changeMonth = (delta) => {
+            let newMonth = state.viewMonth + delta;
+            let newYear = state.viewYear;
+            if (newMonth > 11) { newMonth = 0; newYear++; }
+            if (newMonth < 0) { newMonth = 11; newYear--; }
+            state.viewMonth = newMonth;
+            state.viewYear = newYear;
+            const daysInMonth = new Date(newYear, newMonth + 1, 0).getDate();
+            if (state.selectedDay > daysInMonth) state.selectedDay = daysInMonth;
+            updateUI();
+        };
+
+        window.selectDay = (day) => {
+            state.selectedDay = day;
+            updateUI();
+        };
+
+        // --- NOVAS FUNÇÕES PARA ADICIONAR EVENTO ---
+        window.openAddModal = () => {
+            state.isAddModalOpen = true;
+            state.newItem = { 
+                tipo: state.activeTab === 'all' ? 'cidades' : state.activeTab, 
+                titulo: '', 
+                data: '', 
+                extra: '' 
+            };
+            updateUI();
+        };
+        
+        window.openAddModalAtDate = (day) => {
+            state.selectedDay = day;
+            state.isAddModalOpen = true;
+            state.newItem = { 
+                tipo: state.activeTab === 'all' ? 'cidades' : state.activeTab, 
+                titulo: '', 
+                data: `${String(day).padStart(2, '0')}/${String(state.viewMonth + 1).padStart(2, '0')}`, 
+                extra: '' 
+            };
+            updateUI();
+        };
+
+        window.closeAddModal = () => {
+            state.isAddModalOpen = false;
+            updateUI();
+        };
+
+        window.updateNewItem = (field, value) => {
+            state.newItem[field] = value;
+            updateUI();
+        };
+
+        window.handleSaveNewEvent = () => {
+            if (!state.newItem.titulo || !state.newItem.data) {
+                alert("Preencha o nome e a data.");
+                return;
+            }
+
+            const id = Date.now() + Math.random();
+            let itemToAdd = null;
+
+            if (state.newItem.tipo === 'cidades') {
+                itemToAdd = { id, data: state.newItem.data, cidade: state.newItem.titulo, anoFundacao: state.newItem.extra || null, arteFeita: false, imagem: "" };
+            } else if (state.newItem.tipo === 'aniversariantes') {
+                itemToAdd = { id, data: state.newItem.data, nome: state.newItem.titulo, arteFeita: false, imagem: "" };
+            } else if (state.newItem.tipo === 'datas') {
+                itemToAdd = { id, data: state.newItem.data, comemoracao: state.newItem.titulo, arteFeita: false, imagem: "" };
+            }
+
+            if (itemToAdd) {
+                syncBatchToSheets(state.newItem.tipo, [itemToAdd]);
+                closeAddModal();
+            }
+        };
+        // -------------------------------------------
+
+        window.handleImageSelect = (event) => {
+            if (event.target.files && event.target.files[0]) {
+                const file = event.target.files[0];
+                state.uploadError = '';
+                state.tempFileName = file.name;
+                state.tempImageBase64 = 'loading';
+                updateUI();
+                handleImageCompression(file, (base64, fileName) => {
+                    state.tempImageBase64 = base64;
+                    state.tempFileName = fileName || '';
+                    updateUI();
+                });
+            }
+            event.target.value = '';
+        };
+
+        window.closeImageModal = () => {
+            if (state.isUploadingMedia) {
+                if (!confirm("O upload está em andamento. Cancelar?")) return;
+            }
+            state.isImageUploadModalOpen = false;
+            state.taskToComplete = null;
+            state.taskTypeToComplete = '';
+            state.tempImageBase64 = '';
+            state.tempFileName = '';
+            state.uploadProgress = 0;
+            state.uploadStatus = '';
+            state.uploadError = '';
+            state.isUploadingMedia = false;
+            updateUI();
+        };
+
+        window.closeEditModal = () => {
+            state.isEditModalOpen = false;
+            state.editingItem = null;
+            state.editType = '';
+            updateUI();
+        };
+
+        window.updateEditingItem = (field, value) => {
+            if (state.editingItem) state.editingItem[field] = value;
+        };
+
+        window.handleEditImageClick = () => {
+            const isEditing = (state.editingItem?.imagem && state.editingItem.imagem.length > 10);
+            const pwd = prompt(`Senha (2026) para ${isEditing ? 'alterar' : 'adicionar'} a imagem:`);
+            if (pwd === "2026") {
+                document.getElementById('edit-image-input').click();
+            } else if (pwd !== null) {
+                alert("Senha incorreta!");
+            }
+        };
+
+        window.handleEditImageSelect = (event) => {
+            if (event.target.files && event.target.files[0]) {
+                const file = event.target.files[0];
+                state.editingItem.fileName = file.name;
+                updateUI();
+                handleImageCompression(file, (base64, fileName) => {
+                    state.editingItem.imagem = base64;
+                    state.editingItem.fileName = fileName || '';
+                    updateUI();
+                });
+            }
+            event.target.value = '';
+        };
+
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loading').style.display = 'none';
+            fetchDataFromSheets();
+            setInterval(() => {
+                // Pausa a sincronização automática se algum modal estiver aberto
+                const isModalOpen = state.isEditModalOpen || state.isImageUploadModalOpen || state.isAddModalOpen;
+                if (!isSaving && !isModalOpen) {
+                    fetchDataFromSheets(true);
+                }
+            }, 8000);
+        });
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                    console.log('Service Worker removido');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
