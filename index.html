@@ -27,14 +27,54 @@
             -webkit-tap-highlight-color: transparent;
         }
         
+        :root {
+            --bg: #f2f2f7;
+            --surface: #ffffff;
+            --surface-elevated: #ffffff;
+            --text: #1a1a1a;
+            --text-2: #8e8e93;
+            --text-3: #c7c7cc;
+            --blue: #007AFF;
+            --green: #34C759;
+            --orange: #FF9500;
+            --red: #FF3B30;
+            --purple: #AF52DE;
+            --border: rgba(0, 0, 0, 0.06);
+            --surface-2: rgba(118, 118, 128, 0.06);
+            --surface-3: rgba(118, 118, 128, 0.12);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        body.dark {
+            --bg: #000000;
+            --surface: #1c1c1e;
+            --surface-elevated: #2c2c2e;
+            --text: #f2f2f7;
+            --text-2: #a1a1a6;
+            --text-3: #48484a;
+            --blue: #0A84FF;
+            --green: #30D158;
+            --orange: #FF9F0A;
+            --red: #FF453A;
+            --purple: #BF5AF2;
+            --border: rgba(255, 255, 255, 0.1);
+            --surface-2: rgba(118, 118, 128, 0.15);
+            --surface-3: rgba(118, 118, 128, 0.25);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-            background-color: #f2f2f7;
+            background-color: var(--bg);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            color: #1a1a1a;
-            height: 100vh;
-            overflow: hidden;
+            color: var(--text);
+            transition: background-color 0.3s ease, color 0.3s ease;
             padding: 0;
             margin: 0;
         }
@@ -49,7 +89,7 @@
 
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 10px; }
 
         /* ============================================
            APP CONTAINER
@@ -59,10 +99,11 @@
             display: flex;
             flex-direction: column;
             padding: 8px 12px 12px 12px;
-            background: #f2f2f7;
+            background: var(--bg);
             max-width: 1400px;
             margin: 0 auto;
             overflow: hidden;
+            transition: background-color 0.3s ease;
         }
 
         @media (max-width: 768px) {
@@ -74,7 +115,7 @@
         }
 
         /* ============================================
-           IOS HEADER
+           HEADER
         ============================================ */
         .ios-header {
             display: flex;
@@ -82,16 +123,24 @@
             justify-content: space-between;
             padding: 4px 4px 8px 4px;
             flex-shrink: 0;
+            gap: 8px;
+        }
+
+        .header-title-wrap {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
         }
 
         .ios-header h1 {
             font-size: 28px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #3a3a3c 100%);
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-2) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            line-height: 1.1;
         }
 
         @media (max-width: 768px) {
@@ -102,10 +151,39 @@
             .ios-header h1 { font-size: 20px; }
         }
 
+        .header-subtitle {
+            font-size: 12px;
+            color: var(--text-2);
+            font-weight: 500;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header-subtitle .pulse-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--orange);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+        }
+
         .ios-header-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .ios-header-actions .ios-btn-icon svg {
+            width: 18px;
+            height: 18px;
         }
 
         .ios-status-dot {
@@ -114,25 +192,21 @@
             border-radius: 50%;
             display: inline-block;
             flex-shrink: 0;
+            margin-right: 4px;
         }
 
-        .ios-status-dot.online { background: #34C759; }
-        .ios-status-dot.syncing { background: #FF9500; animation: pulse 1s infinite; }
-        .ios-status-dot.offline { background: #8e8e93; }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
+        .ios-status-dot.online { background: var(--green); box-shadow: 0 0 0 3px rgba(52,199,89,0.15); }
+        .ios-status-dot.syncing { background: var(--orange); animation: pulse 1s infinite; }
+        .ios-status-dot.offline { background: var(--text-2); }
 
         .ios-btn-icon {
-            background: #f2f2f7;
+            background: var(--surface-3);
             border: none;
-            border-radius: 12px;
-            padding: 6px 10px;
+            border-radius: 10px;
+            padding: 8px 10px;
             font-size: 13px;
             font-weight: 600;
-            color: #007AFF;
+            color: var(--blue);
             cursor: pointer;
             transition: all 0.15s;
             display: flex;
@@ -143,7 +217,7 @@
 
         .ios-btn-icon:active {
             transform: scale(0.92);
-            background: #e5e5ea;
+            background: var(--surface-2);
         }
 
         .ios-btn-icon:disabled {
@@ -151,37 +225,116 @@
             pointer-events: none;
         }
 
+        .ios-btn-icon.primary {
+            background: var(--blue);
+            color: white;
+        }
+
+        .ios-btn-icon.primary:active {
+            background: #0066d9;
+        }
+
+        @media (max-width: 480px) {
+            .ios-btn-icon { padding: 6px 8px; }
+            .ios-btn-icon .btn-text { display: none; }
+        }
+
         /* ============================================
-           IOS SEGMENTED CONTROL
+           PROGRESS BAR GLOBAL
+        ============================================ */
+        .global-progress {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin: 0 4px 10px 4px;
+            border: 0.5px solid var(--border);
+            box-shadow: var(--shadow);
+            flex-shrink: 0;
+            transition: background 0.3s ease;
+        }
+
+        .global-progress-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            gap: 8px;
+        }
+
+        .global-progress-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .global-progress-pct {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .global-progress-track {
+            height: 6px;
+            background: var(--surface-3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .global-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--blue), var(--green));
+            border-radius: 3px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (max-width: 480px) {
+            .global-progress { padding: 8px 10px; margin-bottom: 8px; }
+            .global-progress-label { font-size: 11px; }
+        }
+
+        /* ============================================
+           SEGMENTED CONTROL
         ============================================ */
         .ios-segmented {
-            background: rgba(118, 118, 128, 0.12);
+            background: var(--surface-3);
             border-radius: 10px;
-            padding: 3px;
+            padding: 4px;
             display: flex;
             flex-shrink: 0;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            margin-left: 4px;
+            margin-right: 4px;
+            border: 1px solid var(--border);
+            gap: 2px;
         }
 
         .ios-segment {
             flex: 1;
-            padding: 8px 0;
+            padding: 8px 4px;
             text-align: center;
             font-size: 13px;
             font-weight: 600;
-            color: #8e8e93;
+            color: var(--text-2);
             border-radius: 8px;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             border: none;
             background: transparent;
             font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-width: 0;
         }
 
         .ios-segment.active {
-            background: white;
-            color: #007AFF;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+            background: var(--surface-elevated);
+            color: var(--blue);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
         }
 
         .ios-segment:active {
@@ -190,15 +343,101 @@
 
         .ios-segment .badge {
             font-size: 10px;
-            opacity: 0.6;
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-weight: 700;
+            background: var(--surface-2);
+            color: var(--text-2);
+            min-width: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ios-segment.active .badge {
+            background: rgba(0, 122, 255, 0.12);
+            color: var(--blue);
+        }
+
+        .ios-segment .badge.pending {
+            background: rgba(255, 149, 0, 0.15);
+            color: var(--orange);
         }
 
         @media (max-width: 480px) {
-            .ios-segment { font-size: 12px; padding: 6px 0; }
+            .ios-segment { font-size: 12px; padding: 6px 2px; gap: 3px; }
+            .ios-segment .badge { font-size: 9px; padding: 0 4px; }
+            .ios-segment .label-full { display: none; }
         }
 
         /* ============================================
-           IOS GRID - RESPONSIVO
+           FILTER ROW
+        ============================================ */
+        .filter-row {
+            display: flex;
+            gap: 6px;
+            margin: 0 4px 10px 4px;
+            flex-shrink: 0;
+        }
+
+        .filter-chip {
+            flex: 1;
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            color: var(--text-2);
+            font-size: 12px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .filter-chip:active {
+            transform: scale(0.97);
+        }
+
+        .filter-chip.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: white;
+        }
+
+        .filter-chip.active.pending {
+            background: var(--orange);
+            border-color: var(--orange);
+        }
+
+        .filter-chip.active.done {
+            background: var(--green);
+            border-color: var(--green);
+        }
+
+        .filter-chip .chip-count {
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 8px;
+            background: var(--surface-3);
+            color: inherit;
+            opacity: 0.85;
+        }
+
+        .filter-chip.active .chip-count {
+            background: rgba(255,255,255,0.25);
+            color: white;
+        }
+
+        @media (max-width: 480px) {
+            .filter-chip { font-size: 11px; padding: 6px 4px; }
+        }
+
+        /* ============================================
+           GRID
         ============================================ */
         .ios-grid {
             flex: 1;
@@ -217,21 +456,22 @@
         }
 
         /* ============================================
-           IOS CALENDAR - RESPONSIVO
+           CALENDAR
         ============================================ */
         .ios-calendar {
             flex: 0 0 auto;
             width: 42%;
             min-width: 0;
-            background: white;
+            background: var(--surface);
             border-radius: 16px;
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            border: 0.5px solid var(--border);
+            box-shadow: var(--shadow);
             overflow: hidden;
             display: flex;
             flex-direction: column;
             height: 100%;
             max-height: 100%;
+            transition: background 0.3s ease;
         }
 
         @media (max-width: 1200px) {
@@ -242,29 +482,22 @@
             .ios-calendar {
                 width: 100%;
                 flex: 0 0 auto;
-                max-height: 340px;
-                min-height: 240px;
+                max-height: 360px;
+                min-height: 260px;
             }
         }
 
         @media (max-width: 768px) {
             .ios-calendar {
-                max-height: 300px;
-                min-height: 220px;
+                max-height: 320px;
+                min-height: 240px;
             }
         }
 
         @media (max-width: 480px) {
             .ios-calendar {
-                max-height: 260px;
-                min-height: 180px;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .ios-calendar {
-                max-height: 220px;
-                min-height: 150px;
+                max-height: 280px;
+                min-height: 200px;
             }
         }
 
@@ -279,7 +512,7 @@
         .ios-calendar .month-title {
             font-size: 17px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: var(--text);
             letter-spacing: -0.3px;
         }
 
@@ -297,7 +530,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #007AFF;
+            color: var(--blue);
             transition: all 0.2s;
             font-size: 18px;
         }
@@ -318,7 +551,7 @@
             text-align: center;
             font-size: 10px;
             font-weight: 600;
-            color: #8e8e93;
+            color: var(--text-2);
             padding: 4px 0;
             letter-spacing: 0.3px;
             text-transform: uppercase;
@@ -353,7 +586,7 @@
             position: relative;
             font-weight: 500;
             font-size: 15px;
-            color: #1a1a1a;
+            color: var(--text);
             min-height: 36px;
             -webkit-tap-highlight-color: transparent;
         }
@@ -363,21 +596,50 @@
         }
 
         .ios-calendar .day-cell.today {
-            background: #007AFF;
+            background: var(--blue);
             color: white;
             font-weight: 700;
         }
 
         .ios-calendar .day-cell.other-month {
-            color: #c7c7cc;
+            color: var(--text-3);
         }
 
         .ios-calendar .day-cell.weekend {
-            color: #FF3B30;
+            color: var(--red);
         }
 
         .ios-calendar .day-cell.weekend.today {
             color: white;
+        }
+
+        .ios-calendar .day-cell.filtered-out {
+            opacity: 0.35;
+            filter: grayscale(100%);
+        }
+
+        /* Ring status */
+        .ios-calendar .day-cell.pending-ring::before {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: 50%;
+            border: 2px solid var(--orange);
+            pointer-events: none;
+        }
+
+        .ios-calendar .day-cell.done-ring::before {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: 50%;
+            border: 2px solid var(--green);
+            pointer-events: none;
+        }
+
+        .ios-calendar .day-cell.today.pending-ring::before,
+        .ios-calendar .day-cell.today.done-ring::before {
+            border-color: rgba(255,255,255,0.7);
         }
 
         .ios-calendar .day-cell.has-event::after {
@@ -387,7 +649,7 @@
             width: 4px;
             height: 4px;
             border-radius: 50%;
-            background: #007AFF;
+            background: var(--blue);
         }
 
         .ios-calendar .day-cell.has-event.today::after {
@@ -395,7 +657,7 @@
         }
 
         .ios-calendar .day-cell.has-event-completed::after {
-            background: #34C759;
+            background: var(--green);
         }
 
         .ios-calendar .day-cell.selected {
@@ -404,7 +666,7 @@
         }
 
         .ios-calendar .day-cell.selected.today {
-            background: #007AFF;
+            background: var(--blue);
             color: white;
         }
 
@@ -420,9 +682,9 @@
             border-radius: 50%;
         }
 
-        .event-dot.cidades { background: #007AFF; }
-        .event-dot.aniversariantes { background: #FF9500; }
-        .event-dot.datas { background: #AF52DE; }
+        .event-dot.cidades { background: var(--blue); }
+        .event-dot.aniversariantes { background: var(--orange); }
+        .event-dot.datas { background: var(--purple); }
 
         @media (max-width: 1024px) {
             .ios-calendar .day-cell { font-size: 14px; min-height: 34px; }
@@ -444,10 +706,10 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            padding: 4px 0;
-            border-top: 0.5px solid rgba(0, 0, 0, 0.06);
+            padding: 6px 0;
+            border-top: 0.5px solid var(--border);
             font-size: 9px;
-            color: #8e8e93;
+            color: var(--text-2);
             flex-shrink: 0;
             flex-wrap: wrap;
         }
@@ -465,42 +727,62 @@
             display: inline-block;
         }
 
-        .ios-calendar .legend .dot.blue { background: #007AFF; }
-        .ios-calendar .legend .dot.orange { background: #FF9500; }
-        .ios-calendar .legend .dot.purple { background: #AF52DE; }
-        .ios-calendar .legend .dot.green { background: #34C759; }
+        .ios-calendar .legend .dot.blue { background: var(--blue); }
+        .ios-calendar .legend .dot.orange { background: var(--orange); }
+        .ios-calendar .legend .dot.purple { background: var(--purple); }
+        .ios-calendar .legend .dot.green { background: var(--green); }
+
+        /* Next event */
+        .next-event-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-top: 0.5px solid var(--border);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text);
+            flex-shrink: 0;
+            background: var(--surface-2);
+        }
+
+        .next-event-bar .label { color: var(--text-2); font-weight: 500; }
+        .next-event-bar .time { color: var(--blue); }
 
         .ios-calendar .totals {
             display: flex;
             justify-content: center;
             gap: 12px;
-            padding: 3px 0 5px 0;
-            border-top: 0.5px solid rgba(0, 0, 0, 0.06);
+            padding: 5px 0;
+            border-top: 0.5px solid var(--border);
             font-size: 10px;
-            color: #8e8e93;
+            color: var(--text-2);
             flex-shrink: 0;
         }
 
         @media (max-width: 480px) {
-            .ios-calendar .legend { font-size: 8px; gap: 6px; padding: 2px 0; }
+            .ios-calendar .legend { font-size: 8px; gap: 6px; padding: 3px 0; }
             .ios-calendar .legend .dot { width: 4px; height: 4px; }
-            .ios-calendar .totals { font-size: 9px; gap: 8px; padding: 2px 0 4px 0; }
+            .ios-calendar .totals { font-size: 9px; gap: 8px; padding: 3px 0; }
+            .next-event-bar { font-size: 10px; padding: 4px 6px; }
         }
 
         /* ============================================
-           IOS EVENTS
+           EVENTS
         ============================================ */
         .ios-events {
             flex: 1;
             min-width: 0;
             display: flex;
             flex-direction: column;
-            background: white;
+            background: var(--surface);
             border-radius: 16px;
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            border: 0.5px solid var(--border);
+            box-shadow: var(--shadow);
             overflow: hidden;
             height: 100%;
+            transition: background 0.3s ease;
         }
 
         @media (max-width: 1024px) {
@@ -517,25 +799,38 @@
 
         .ios-events-header {
             padding: 12px 16px 8px 16px;
-            border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+            border-bottom: 0.5px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
+            gap: 8px;
         }
 
         .ios-events-header h3 {
             font-size: 15px;
             font-weight: 600;
-            color: #1a1a1a;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+        }
+
+        .ios-events-header .date-chip {
+            font-weight: 400;
+            color: var(--text-2);
+            font-size: 13px;
         }
 
         .ios-events-header .count {
             font-size: 12px;
-            color: #8e8e93;
-            background: rgba(118, 118, 128, 0.08);
-            padding: 2px 12px;
+            color: var(--text-2);
+            background: var(--surface-3);
+            padding: 3px 12px;
             border-radius: 12px;
+            flex-shrink: 0;
+            font-weight: 600;
         }
 
         @media (max-width: 480px) {
@@ -546,20 +841,38 @@
         .ios-events-list {
             flex: 1;
             overflow-y: auto;
-            padding: 8px 12px;
+            padding: 8px 12px 12px 12px;
             -webkit-overflow-scrolling: touch;
         }
 
         @media (max-width: 480px) {
-            .ios-events-list { padding: 6px 8px; }
+            .ios-events-list { padding: 6px 8px 10px 8px; }
         }
 
+        .category-group {
+            margin-bottom: 12px;
+        }
+
+        .category-group-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 4px 6px 4px;
+        }
+
+        .category-group-header .icon { font-size: 11px; }
+
         .ios-event-item {
-            background: rgba(118, 118, 128, 0.04);
+            background: var(--surface-2);
             border-radius: 12px;
             padding: 10px 12px;
             margin-bottom: 6px;
-            border-left: 3px solid #007AFF;
+            border-left: 3px solid var(--blue);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -567,33 +880,52 @@
             transition: all 0.15s ease;
             gap: 8px;
             -webkit-tap-highlight-color: transparent;
+            position: relative;
         }
 
         .ios-event-item:active {
             transform: scale(0.98);
-            background: rgba(118, 118, 128, 0.08);
+            background: var(--surface-3);
         }
 
         .ios-event-item.completed {
-            background: rgba(52, 199, 89, 0.06);
-            opacity: 0.7;
-            border-left-color: #34C759;
+            background: rgba(52, 199, 89, 0.08);
+            opacity: 0.75;
+            border-left-color: var(--green);
+        }
+
+        body.dark .ios-event-item.completed {
+            background: rgba(48, 209, 88, 0.08);
         }
 
         .ios-event-item.completed .event-title {
             text-decoration: line-through;
-            color: #8e8e93;
+            color: var(--text-2);
         }
 
         .ios-event-item .event-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ios-event-item .event-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .ios-event-item .event-text {
             flex: 1;
             min-width: 0;
         }
 
         .ios-event-item .event-title {
             font-size: 14px;
-            font-weight: 500;
-            color: #1a1a1a;
+            font-weight: 600;
+            color: var(--text);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -601,8 +933,9 @@
 
         .ios-event-item .event-date {
             font-size: 12px;
-            color: #8e8e93;
+            color: var(--text-2);
             margin-top: 1px;
+            font-weight: 500;
         }
 
         .ios-event-item .event-actions {
@@ -612,22 +945,23 @@
             flex-shrink: 0;
         }
 
-        .ios-event-item.cidade-event { border-left-color: #007AFF; }
-        .ios-event-item.aniversariante-event { border-left-color: #FF9500; }
-        .ios-event-item.data-event { border-left-color: #AF52DE; }
+        .ios-event-item.cidade-event { border-left-color: var(--blue); }
+        .ios-event-item.aniversariante-event { border-left-color: var(--orange); }
+        .ios-event-item.data-event { border-left-color: var(--purple); }
 
         .ios-check {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            border: 1.5px solid #c7c7cc;
+            border: 1.5px solid var(--text-3);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s;
             flex-shrink: 0;
-            background: white;
+            background: var(--surface);
+            position: relative;
         }
 
         .ios-check:active {
@@ -635,8 +969,15 @@
         }
 
         .ios-check.done {
-            background: #34C759;
-            border-color: #34C759;
+            background: var(--green);
+            border-color: var(--green);
+            animation: checkPop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes checkPop {
+            0% { transform: scale(0.7); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
         }
 
         .ios-check.done svg {
@@ -644,15 +985,22 @@
         }
 
         .ios-thumbnail {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
             object-fit: cover;
-            border: 1.5px solid rgba(0, 0, 0, 0.06);
+            border: 1.5px solid var(--border);
             flex-shrink: 0;
             cursor: pointer;
             transition: all 0.2s;
-            background: #f2f2f7;
+            background: var(--surface-3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ios-thumbnail:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .ios-thumbnail:active {
@@ -663,12 +1011,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 5px;
             display: block;
         }
 
         .ios-thumbnail.completed-thumb {
-            border-color: #34C759;
+            border-color: var(--green);
         }
 
         .ios-media-badge {
@@ -678,11 +1025,8 @@
             font-weight: 600;
             margin-left: 4px;
             display: inline-block;
-        }
-
-        .ios-media-badge.image {
             background: rgba(0, 122, 255, 0.1);
-            color: #007AFF;
+            color: var(--blue);
         }
 
         .ios-empty {
@@ -691,43 +1035,82 @@
             align-items: center;
             justify-content: center;
             height: 100%;
-            color: #8e8e93;
+            color: var(--text-2);
             text-align: center;
             padding: 20px 16px;
+            gap: 6px;
         }
 
         .ios-empty svg {
-            width: 40px;
-            height: 40px;
-            stroke: #c7c7cc;
-            margin-bottom: 10px;
+            width: 44px;
+            height: 44px;
+            stroke: var(--text-3);
+            margin-bottom: 4px;
         }
 
         .ios-empty p {
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--text);
         }
 
         .ios-empty .sub {
             font-size: 12px;
             font-weight: 400;
-            color: #8e8e93;
+            color: var(--text-2);
             margin-top: 2px;
         }
 
+        .ios-empty .empty-action {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: var(--blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .ios-empty .empty-action:active {
+            transform: scale(0.96);
+            background: #0066d9;
+        }
+
         @media (max-width: 480px) {
-            .ios-event-item { padding: 6px 8px; }
+            .ios-event-item { padding: 8px 10px; }
             .ios-event-item .event-title { font-size: 13px; }
             .ios-event-item .event-date { font-size: 11px; }
-            .ios-check { width: 20px; height: 20px; }
-            .ios-thumbnail { width: 28px; height: 28px; }
+            .ios-check { width: 22px; height: 22px; }
+            .ios-thumbnail { width: 32px; height: 32px; }
         }
 
         /* ============================================
-           IOS MODAL
+           SKELETON LOADING
+        ============================================ */
+        .skeleton {
+            background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ============================================
+           MODAL
         ============================================ */
         .ios-modal {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             position: fixed;
@@ -736,6 +1119,12 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @media (min-width: 640px) {
@@ -743,7 +1132,7 @@
         }
 
         .ios-modal-content {
-            background: #f2f2f7;
+            background: var(--bg);
             width: 100%;
             max-width: 500px;
             border-radius: 20px 20px 0 0;
@@ -753,6 +1142,7 @@
             animation: slideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
             max-height: 92vh;
             overflow-y: auto;
+            transition: background 0.3s ease;
         }
 
         @media (min-width: 640px) {
@@ -771,7 +1161,7 @@
         .ios-modal-handle {
             width: 36px;
             height: 5px;
-            background: rgba(60, 60, 67, 0.18);
+            background: var(--surface-3);
             border-radius: 3px;
             margin: 0 auto 16px;
         }
@@ -781,11 +1171,12 @@
             font-weight: 700;
             text-align: center;
             margin-bottom: 4px;
+            color: var(--text);
         }
 
         .ios-modal .subtitle {
             font-size: 14px;
-            color: #8e8e93;
+            color: var(--text-2);
             text-align: center;
             margin-bottom: 16px;
         }
@@ -796,7 +1187,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(118, 118, 128, 0.06);
+            background: var(--surface-2);
             border-radius: 14px;
             overflow: hidden;
             position: relative;
@@ -817,7 +1208,7 @@
             align-items: center;
             justify-content: center;
             padding: 30px;
-            color: #8e8e93;
+            color: var(--text-2);
             text-align: center;
         }
 
@@ -843,7 +1234,7 @@
         }
 
         .ios-btn.primary {
-            background: #007AFF;
+            background: var(--blue);
             color: white;
             box-shadow: 0 2px 12px rgba(0, 122, 255, 0.3);
         }
@@ -853,12 +1244,17 @@
         }
 
         .ios-btn.secondary {
-            background: #f2f2f7;
-            color: #007AFF;
+            background: var(--surface-3);
+            color: var(--blue);
         }
 
         .ios-btn.secondary:active {
-            background: #e5e5ea;
+            background: var(--surface-2);
+        }
+
+        .ios-btn.danger {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--red);
         }
 
         .ios-btn:disabled {
@@ -868,13 +1264,13 @@
 
         .ios-input {
             width: 100%;
-            background: rgba(118, 118, 128, 0.08);
+            background: var(--surface-3);
             border: none;
             border-radius: 12px;
             padding: 12px 14px;
             font-size: 16px;
             font-weight: 400;
-            color: #1a1a1a;
+            color: var(--text);
             outline: none;
             transition: all 0.2s;
             font-family: inherit;
@@ -882,12 +1278,12 @@
         }
 
         .ios-input:focus {
-            background: white;
+            background: var(--surface);
             box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
         }
 
         .ios-input::placeholder {
-            color: #8e8e93;
+            color: var(--text-2);
         }
         
         select.ios-input {
@@ -900,25 +1296,134 @@
             background-position-y: 50%;
         }
 
+        /* ============================================
+           PASSWORD MODAL
+        ============================================ */
+        .password-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .password-pad button {
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 20px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        .password-pad button:active {
+            transform: scale(0.94);
+            background: var(--surface-3);
+        }
+
+        .password-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .password-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1.5px solid var(--text-3);
+            transition: all 0.15s;
+        }
+
+        .password-dot.filled {
+            background: var(--blue);
+            border-color: var(--blue);
+        }
+
+        .password-dot.error {
+            background: var(--red);
+            border-color: var(--red);
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+
+        /* ============================================
+           TOAST
+        ============================================ */
+        .toast-container {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--surface);
+            color: var(--text);
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: toastIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 0.5px solid var(--border);
+            max-width: 90vw;
+        }
+
+        .toast.success { border-left: 3px solid var(--green); }
+        .toast.error { border-left: 3px solid var(--red); }
+        .toast.info { border-left: 3px solid var(--blue); }
+
+        @keyframes toastIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes toastOut {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-20px); opacity: 0; }
+        }
+
+        /* ============================================
+           PROGRESS
+        ============================================ */
         .ios-progress {
-            background: rgba(118, 118, 128, 0.15);
+            background: var(--surface-3);
             border-radius: 6px;
-            height: 4px;
+            height: 5px;
             overflow: hidden;
             margin-top: 12px;
         }
 
         .ios-progress-bar {
             height: 100%;
-            background: #007AFF;
+            background: linear-gradient(90deg, var(--blue), var(--green));
             border-radius: 6px;
             transition: width 0.3s ease;
             width: 0%;
         }
 
         .ios-error {
-            background: #fee2e2;
-            color: #dc2626;
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--red);
             padding: 8px 12px;
             border-radius: 10px;
             font-size: 13px;
@@ -931,7 +1436,7 @@
         .ios-label {
             font-size: 12px;
             font-weight: 600;
-            color: #8e8e93;
+            color: var(--text-2);
             display: block;
             margin-bottom: 4px;
             text-transform: uppercase;
@@ -940,7 +1445,7 @@
 
         .ios-divider {
             border: none;
-            border-top: 0.5px solid rgba(0, 0, 0, 0.06);
+            border-top: 0.5px solid var(--border);
             margin: 12px 0;
         }
 
@@ -955,6 +1460,36 @@
             .ios-modal h2 { font-size: 18px; }
             .ios-btn { font-size: 15px; padding: 12px 16px; }
             .ios-input { padding: 10px 12px; font-size: 15px; }
+        }
+
+        /* ============================================
+           FLOATING ADD BUTTON (MOBILE)
+        ============================================ */
+        .fab-add {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 40;
+            transition: all 0.2s;
+        }
+
+        .fab-add:active {
+            transform: scale(0.92);
+        }
+
+        @media (max-width: 480px) {
+            .fab-add { display: flex; width: 50px; height: 50px; bottom: 16px; right: 16px; }
         }
 
         /* ============================================
@@ -979,12 +1514,14 @@
             .ios-calendar .days-grid { padding: 0 6px 2px 6px !important; gap: 1px !important; }
             .ios-calendar .legend { display: none !important; }
             .ios-calendar .totals { padding: 2px 0 !important; font-size: 8px !important; }
+            .next-event-bar { display: none !important; }
+            .global-progress { padding: 6px 10px !important; margin-bottom: 6px !important; }
         }
     </style>
 </head>
 <body>
     <div id="app">
-        <div id="loading" style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:20px;background:#f2f2f7;">
+        <div id="loading" style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:20px;background:var(--bg);">
             <div style="width:36px;height:36px;border:3px solid rgba(0,122,255,0.15);border-top-color:#007AFF;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
             <span style="color:#8e8e93;font-size:16px;font-weight:500;">Carregando...</span>
         </div>
@@ -992,19 +1529,24 @@
             @keyframes spin { to { transform: rotate(360deg); } }
         </style>
     </div>
+    <div class="toast-container" id="toast-container"></div>
 
     <script>
         // ============================================
         // CONFIGURAÇÃO
         // ============================================
         const GOOGLE_SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwms4JavFxbp1XMvW-XCLzZNTN4srw-tVtonzn9m7IiHApVNDIO-0SG_xEhcbAOtbhqfA/exec";
+        const ADMIN_PASSWORD = "2026";
 
         // ============================================
         // ESTADO GLOBAL
         // ============================================
         let state = {
             activeTab: 'cidades',
+            filter: 'all', // all | pending | done
             syncStatus: 'offline',
+            isLoading: true,
+            isDark: false,
             isUploadingPdf: false,
             isUploadingMedia: false,
             uploadProgress: 0,
@@ -1026,7 +1568,16 @@
             selectedDay: new Date().getDate(),
             
             isAddModalOpen: false,
-            newItem: { tipo: 'cidades', titulo: '', data: '', extra: '' }
+            newItem: { tipo: 'cidades', titulo: '', data: '', extra: '' },
+
+            // password modal
+            passwordModal: {
+                isOpen: false,
+                title: '',
+                dots: 0,
+                error: false,
+                onSuccess: null
+            }
         };
 
         let isSaving = false;
@@ -1039,7 +1590,38 @@
         const weekDays = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
 
         // ============================================
-        // FUNÇÕES
+        // TOAST
+        // ============================================
+        function showToast(message, type = 'success', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.3s forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        // ============================================
+        // DARK MODE
+        // ============================================
+        function applyDarkMode(isDark) {
+            state.isDark = isDark;
+            document.body.classList.toggle('dark', isDark);
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#000000' : '#f2f2f7');
+            try { localStorage.setItem('darkMode', isDark ? '1' : '0'); } catch(e) {}
+        }
+
+        window.toggleDarkMode = () => {
+            applyDarkMode(!state.isDark);
+            updateUI();
+        };
+
+        // ============================================
+        // HELPERS
         // ============================================
         const isImageUrl = (url) => {
             if (!url || typeof url !== 'string') return false;
@@ -1159,14 +1741,68 @@
             return events.every(e => e.arteFeita === true);
         };
 
+        const hasPendingOnDay = (day, month, year) => {
+            const events = getEventsForDay(day, month, year);
+            if (events.length === 0) return false;
+            return events.some(e => !e.arteFeita);
+        };
+
         const getEventTypesOnDay = (day, month, year) => {
             const events = getEventsForDay(day, month, year);
             const types = events.map(e => e.type);
             return [...new Set(types)].slice(0, 3);
         };
 
+        const dayHasFilteredEvents = (day, month, year) => {
+            const events = getEventsForDay(day, month, year);
+            if (events.length === 0) return false;
+            if (state.filter === 'pending') return events.some(e => !e.arteFeita);
+            if (state.filter === 'done') return events.some(e => e.arteFeita);
+            return true;
+        };
+
+        // Apply filter to an array of events
+        const applyFilter = (events) => {
+            if (state.filter === 'pending') return events.filter(e => !e.arteFeita);
+            if (state.filter === 'done') return events.filter(e => e.arteFeita);
+            return events;
+        };
+
+        // Get all events of current tab (filtered by activeTab, not by date)
+        const getAllEventsOfActiveTab = () => {
+            let all = [];
+            if (state.activeTab === 'cidades') all = state.cidades.map(c => ({...c, type:'cidades'}));
+            else if (state.activeTab === 'aniversariantes') all = state.aniversariantes.map(a => ({...a, type:'aniversariantes'}));
+            else if (state.activeTab === 'datas') all = state.datasComemorativas.map(d => ({...d, type:'datas'}));
+            return all;
+        };
+
+        // Get next upcoming event (from today forward)
+        const getNextEvent = () => {
+            const all = getAllEventsOfActiveTab();
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            
+            let best = null;
+            let bestDiff = Infinity;
+            
+            all.forEach(ev => {
+                const parsed = extractDayMonth(ev.data);
+                if (!parsed) return;
+                let evDate = new Date(today.getFullYear(), parsed.month, parsed.day);
+                if (evDate < today) evDate = new Date(today.getFullYear() + 1, parsed.month, parsed.day);
+                const diff = Math.ceil((evDate - today) / (1000 * 60 * 60 * 24));
+                if (diff < bestDiff) {
+                    bestDiff = diff;
+                    best = { ...ev, diff };
+                }
+            });
+            
+            return best;
+        };
+
         // ============================================
-        // FUNÇÕES DE API
+        // API
         // ============================================
         const fetchDataFromSheets = async (isSilent = false) => {
             if (!isSilent) {
@@ -1182,9 +1818,11 @@
                 if(data.datas) state.datasComemorativas = data.datas.map(item => ({...item, data: formatIncomingDate(item.data, 'datas')}));
                 
                 state.syncStatus = 'online';
+                state.isLoading = false;
                 updateUI();
             } catch (error) {
                 state.syncStatus = 'offline';
+                state.isLoading = false;
                 updateUI();
             }
         };
@@ -1229,13 +1867,13 @@
         };
 
         // ============================================
-        // FUNÇÕES DE NEGÓCIO - LIMITE 1GB
+        // IMAGE COMPRESSION
         // ============================================
         const handleImageCompression = (file, callback) => {
             if (!file) return;
             
             const fileSize = file.size;
-            const maxSize = 1024 * 1024 * 1024; // 1GB
+            const maxSize = 1024 * 1024 * 1024;
             
             if (fileSize > maxSize) {
                 alert(`O arquivo é muito grande (${(fileSize / 1024 / 1024 / 1024).toFixed(2)}GB). O limite é 1GB.`);
@@ -1252,7 +1890,6 @@
                     let width = img.width;
                     let height = img.height;
                     
-                    // Reduz apenas se for maior que 2000px
                     const MAX_WIDTH = 2000;
                     if (width > MAX_WIDTH) {
                         height = height * (MAX_WIDTH / width);
@@ -1266,8 +1903,6 @@
                     callback(base64, file.name);
                 };
                 reader.onerror = function() {
-                    // Se falhar ao carregar como imagem, tenta enviar como base64 puro
-                    // (útil para vídeos ou arquivos muito grandes)
                     const base64 = event.target.result;
                     callback(base64, file.name);
                 };
@@ -1279,6 +1914,9 @@
             updateTimeout = setTimeout(() => { updateTimeout = null; updateUI(); }, 300);
         };
 
+        // ============================================
+        // TOGGLE ARTE
+        // ============================================
         const toggleArteFeita = async (item, type, isDone, imageBase64 = "") => {
             const updatedItem = { ...item, arteFeita: isDone, imagem: imageBase64 || item.imagem || "" };
             
@@ -1298,7 +1936,6 @@
                     progress += 5;
                     state.uploadProgress = progress;
                     state.uploadStatus = progress < 50 ? 'Enviando...' : 'Salvando...';
-                    // Atualiza apenas a barra de progresso sem re-renderizar o modal inteiro
                     const progressBar = document.querySelector('.ios-progress-bar');
                     const progressText = document.querySelector('.ios-progress-text');
                     if (progressBar) progressBar.style.width = progress + '%';
@@ -1338,6 +1975,7 @@
                         state.tempImageBase64 = '';
                         state.tempFileName = '';
                         updateUI();
+                        showToast('Arte concluída com sucesso!', 'success');
                     }, 1200);
                 } else {
                     state.uploadError = '❌ Erro ao salvar. Tente novamente.';
@@ -1352,6 +1990,64 @@
             }
         };
 
+        // ============================================
+        // PASSWORD MODAL
+        // ============================================
+        function openPasswordModal(title, onSuccess) {
+            state.passwordModal = { isOpen: true, title, dots: 0, error: false, onSuccess };
+            updateUI();
+        }
+
+        function closePasswordModal() {
+            state.passwordModal.isOpen = false;
+            updateUI();
+        }
+
+        // Store password digits internally
+        let _pwdBuffer = '';
+
+        window.handlePwdDigit = (digit) => {
+            if (state.passwordModal.dots >= 4) return;
+            _pwdBuffer += digit;
+            state.passwordModal.dots = _pwdBuffer.length;
+            state.passwordModal.error = false;
+            updateUI();
+            
+            if (_pwdBuffer.length === 4) {
+                setTimeout(() => {
+                    if (_pwdBuffer === ADMIN_PASSWORD) {
+                        const cb = state.passwordModal.onSuccess;
+                        _pwdBuffer = '';
+                        state.passwordModal.isOpen = false;
+                        state.passwordModal.onSuccess = null;
+                        updateUI();
+                        if (cb) cb();
+                    } else {
+                        state.passwordModal.error = true;
+                        _pwdBuffer = '';
+                        state.passwordModal.dots = 0;
+                        updateUI();
+                        setTimeout(() => {
+                            state.passwordModal.error = false;
+                            updateUI();
+                        }, 500);
+                    }
+                }, 200);
+            }
+        };
+
+        window.handlePwdBackspace = () => {
+            if (_pwdBuffer.length > 0) {
+                _pwdBuffer = _pwdBuffer.slice(0, -1);
+                state.passwordModal.dots = _pwdBuffer.length;
+                state.passwordModal.error = false;
+                updateUI();
+            }
+        };
+
+        // ============================================
+        // CHECK / EDIT ACTIONS
+        // ============================================
         const handleCheckClick = (item, type) => {
             if (!item.arteFeita) {
                 state.taskToComplete = item;
@@ -1365,12 +2061,10 @@
                 state.isImageUploadModalOpen = true;
                 updateUI();
             } else {
-                const pwd = prompt("Senha de administrador (2026) para desmarcar:");
-                if (pwd === "2026") {
+                openPasswordModal('Digite a senha para desmarcar', () => {
                     toggleArteFeita(item, type, false, "");
-                } else if (pwd !== null) {
-                    alert("Senha incorreta!");
-                }
+                    showToast('Arte desmarcada', 'info');
+                });
             }
         };
 
@@ -1401,6 +2095,7 @@
             
             state.isEditModalOpen = false;
             updateUI();
+            showToast('Salvando alterações...', 'info', 1500);
             
             const typeStr = state.editType === 'datas' ? 'update_data' : state.editType === 'cidades' ? 'update_cidade' : 'update_aniversariante';
             const result = await saveToSheets(typeStr, itemToSave);
@@ -1410,11 +2105,14 @@
                 else if (state.editType === 'cidades') state.cidades = state.cidades.map(c => c.id === finalItem.id ? finalItem : c);
                 else if (state.editType === 'aniversariantes') state.aniversariantes = state.aniversariantes.map(a => a.id === finalItem.id ? finalItem : a);
                 updateUI();
+                showToast('Alterações salvas!', 'success');
+            } else if (result) {
+                showToast('Alterações salvas!', 'success');
             }
         };
 
         // ============================================
-        // PROCESSAMENTO DE PDF
+        // PDF
         // ============================================
         const processPdfText = (text) => {
             const upperText = text.toUpperCase();
@@ -1504,7 +2202,11 @@
                     body: JSON.stringify({ action: 'batch_add', sheetName, rows })
                 });
                 state.syncStatus = 'online';
-            } catch (error) { state.syncStatus = 'offline'; }
+                showToast(`${items.length} itens adicionados`, 'success');
+            } catch (error) { 
+                state.syncStatus = 'offline';
+                showToast('Erro ao adicionar itens', 'error');
+            }
             isSaving = false;
             updateUI();
         };
@@ -1541,10 +2243,35 @@
         };
 
         // ============================================
-        // RENDERIZAÇÃO
+        // RENDER HELPERS
+        // ============================================
+        const getCategoryIcon = (type) => {
+            if (type === 'cidades') return '🏙️';
+            if (type === 'aniversariantes') return '🎂';
+            return '📅';
+        };
+
+        const getCategoryLabel = (type) => {
+            if (type === 'cidades') return 'Cidades';
+            if (type === 'aniversariantes') return 'Assessores';
+            return 'Datas';
+        };
+
+        const getEventIcon = (type) => {
+            if (type === 'cidades') return '🏙️';
+            if (type === 'aniversariantes') return '🎂';
+            return '📅';
+        };
+
+        const getEventTitle = (item) => {
+            return item.cidade || item.nome || item.comemoracao || 'Sem título';
+        };
+
+        // ============================================
+        // RENDER
         // ============================================
         const renderApp = () => {
-            const { viewMonth, viewYear, selectedDay, activeTab } = state;
+            const { viewMonth, viewYear, selectedDay, activeTab, filter } = state;
             const firstDay = new Date(viewYear, viewMonth, 1).getDay();
             const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
             const prevMonthDays = new Date(viewYear, viewMonth, 0).getDate();
@@ -1556,49 +2283,128 @@
             for (let i = 1; i <= remaining; i++) days.push({ day: i, isCurrentMonth: false });
 
             const monthEvents = getEventsForMonth(viewMonth, viewYear);
-            const dayEvents = getEventsForDay(selectedDay, viewMonth, viewYear);
-            const filteredDayEvents = dayEvents;
+            const dayEvents = applyFilter(getEventsForDay(selectedDay, viewMonth, viewYear));
 
             const totalCidades = state.cidades.length;
             const totalAniversariantes = state.aniversariantes.length;
             const totalDatas = state.datasComemorativas.length;
+
+            // global progress
+            const allCurrentTab = getAllEventsOfActiveTab();
+            const doneCurrentTab = allCurrentTab.filter(e => e.arteFeita).length;
+            const totalCurrentTab = allCurrentTab.length;
+            const pctGlobal = totalCurrentTab === 0 ? 0 : Math.round((doneCurrentTab / totalCurrentTab) * 100);
+            const pendingCurrentTab = totalCurrentTab - doneCurrentTab;
+
+            // filter counts (current tab)
+            const countAll = totalCurrentTab;
+            const countDone = doneCurrentTab;
+            const countPending = pendingCurrentTab;
+
+            // header pendentes hoje
+            const todayEvents = (() => {
+                const d = new Date();
+                return getEventsForDay(d.getDate(), d.getMonth(), d.getFullYear());
+            })();
+            const pendentesHoje = todayEvents.filter(e => !e.arteFeita).length;
+
+            // next event
+            const nextEvent = getNextEvent();
+
+            // segment labels with counts
+            const segCidadesPending = state.cidades.filter(c => !c.arteFeita).length;
+            const segAnivPending = state.aniversariantes.filter(a => !a.arteFeita).length;
+            const segDatasPending = state.datasComemorativas.filter(d => !d.arteFeita).length;
 
             let html = `
                 <div class="app-container">
                     
                     <!-- HEADER -->
                     <div class="ios-header">
-                        <h1>Agenda</h1>
+                        <div class="header-title-wrap">
+                            <h1>Agenda</h1>
+                            ${pendentesHoje > 0 ? `
+                                <div class="header-subtitle">
+                                    <span class="pulse-dot"></span>
+                                    ${pendentesHoje} pendente${pendentesHoje > 1 ? 's' : ''} hoje
+                                </div>
+                            ` : `
+                                <div class="header-subtitle" style="color: var(--green);">
+                                    ✓ Tudo em dia
+                                </div>
+                            `}
+                        </div>
                         <div class="ios-header-actions">
                             <div class="ios-status-dot ${state.syncStatus === 'online' ? 'online' : state.syncStatus === 'syncing' ? 'syncing' : 'offline'}"></div>
+
+                            <button onclick="toggleDarkMode()" class="ios-btn-icon" title="Tema">
+                                ${state.isDark ? 
+                                    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>` : 
+                                    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`
+                                }
+                            </button>
                             
-                            <!-- BOTÃO DE ADICIONAR EVENTO MANUALMENTE -->
-                            <button onclick="openAddModal()" class="ios-btn-icon" title="Adicionar Evento Manualmente">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <button onclick="openAddModal()" class="ios-btn-icon primary" title="Adicionar Evento">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                <span class="btn-text">Novo</span>
                             </button>
 
                             <input type="file" id="pdf-upload" accept=".pdf" class="hidden" onchange="handleFileUpload(event)" />
-                            <button onclick="document.getElementById('pdf-upload').click()" class="ios-btn-icon" ${state.isUploadingPdf ? 'disabled' : ''}>
+                            <button onclick="document.getElementById('pdf-upload').click()" class="ios-btn-icon" ${state.isUploadingPdf ? 'disabled' : ''} title="Importar PDF">
                                 ${state.isUploadingPdf ? 
-                                    `<span class="animate-spin w-4 h-4 border-2 border-[#007AFF] border-t-transparent rounded-full"></span>` :
-                                    `
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                                    `
+                                    `<span style="display:inline-block;width:16px;height:16px;border:2px solid var(--blue);border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;"></span>` :
+                                    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>`
                                 }
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- GLOBAL PROGRESS -->
+                    <div class="global-progress">
+                        <div class="global-progress-top">
+                            <div class="global-progress-label">
+                                📊 Progresso · ${getCategoryLabel(activeTab)}
+                            </div>
+                            <div class="global-progress-pct">${pctGlobal}%</div>
+                        </div>
+                        <div class="global-progress-track">
+                            <div class="global-progress-fill" style="width:${pctGlobal}%"></div>
+                        </div>
+                        <div style="font-size:11px;color:var(--text-2);margin-top:6px;display:flex;justify-content:space-between;">
+                            <span>${doneCurrentTab} concluídas</span>
+                            <span>${pendingCurrentTab} pendentes de ${totalCurrentTab}</span>
                         </div>
                     </div>
 
                     <!-- SEGMENTED CONTROL -->
                     <div class="ios-segmented">
                         <button onclick="setActiveTab('cidades')" class="ios-segment ${activeTab === 'cidades' ? 'active' : ''}">
-                            Cidades <span class="badge">${totalCidades}</span>
+                            <span>🏙️</span>
+                            <span class="label-full">Cidades</span>
+                            <span class="badge ${segCidadesPending > 0 ? 'pending' : ''}">${segCidadesPending > 0 ? segCidadesPending : totalCidades}</span>
                         </button>
                         <button onclick="setActiveTab('aniversariantes')" class="ios-segment ${activeTab === 'aniversariantes' ? 'active' : ''}">
-                            Assessores <span class="badge">${totalAniversariantes}</span>
+                            <span>🎂</span>
+                            <span class="label-full">Assessores</span>
+                            <span class="badge ${segAnivPending > 0 ? 'pending' : ''}">${segAnivPending > 0 ? segAnivPending : totalAniversariantes}</span>
                         </button>
                         <button onclick="setActiveTab('datas')" class="ios-segment ${activeTab === 'datas' ? 'active' : ''}">
-                            Datas <span class="badge">${totalDatas}</span>
+                            <span>📅</span>
+                            <span class="label-full">Datas</span>
+                            <span class="badge ${segDatasPending > 0 ? 'pending' : ''}">${segDatasPending > 0 ? segDatasPending : totalDatas}</span>
+                        </button>
+                    </div>
+
+                    <!-- FILTER CHIPS -->
+                    <div class="filter-row">
+                        <button onclick="setFilter('all')" class="filter-chip ${filter === 'all' ? 'active' : ''}">
+                            Todas <span class="chip-count">${countAll}</span>
+                        </button>
+                        <button onclick="setFilter('pending')" class="filter-chip ${filter === 'pending' ? 'active pending' : ''}">
+                            Pendentes <span class="chip-count">${countPending}</span>
+                        </button>
+                        <button onclick="setFilter('done')" class="filter-chip ${filter === 'done' ? 'active done' : ''}">
+                            Concluídas <span class="chip-count">${countDone}</span>
                         </button>
                     </div>
 
@@ -1628,23 +2434,33 @@
                                     const isWeekend = index % 7 === 0 || index % 7 === 6;
                                     const hasEvent = day.isCurrentMonth && hasEventOnDay(day.day, viewMonth, viewYear);
                                     const allCompleted = day.isCurrentMonth && allEventsCompletedOnDay(day.day, viewMonth, viewYear);
+                                    const hasPending = day.isCurrentMonth && hasPendingOnDay(day.day, viewMonth, viewYear);
                                     const eventTypes = day.isCurrentMonth ? getEventTypesOnDay(day.day, viewMonth, viewYear) : [];
+                                    const matchesFilter = day.isCurrentMonth ? dayHasFilteredEvents(day.day, viewMonth, viewYear) : false;
                                     
                                     let classes = 'day-cell';
                                     if (!day.isCurrentMonth) classes += ' other-month';
                                     else if (isToday) classes += ' today';
                                     else if (isWeekend) classes += ' weekend';
+
+                                    if (day.isCurrentMonth && state.filter !== 'all' && !matchesFilter && hasEvent) {
+                                        classes += ' filtered-out';
+                                    }
+
+                                    if (hasEvent && !isToday) {
+                                        if (allCompleted) classes += ' done-ring';
+                                        else if (hasPending) classes += ' pending-ring';
+                                    }
                                     if (hasEvent && !isToday && !isSelected) classes += ' has-event';
                                     if (hasEvent && allCompleted && !isToday && !isSelected) classes += ' has-event-completed';
                                     if (isSelected && !isToday) classes += ' selected';
                                     
                                     return `
-                                        <div class="${classes}" onclick="selectDay(${day.day})" ondblclick="openAddModalAtDate(${day.day})">
+                                        <div class="${classes}" onclick="selectDay(${day.day})" ondblclick="openAddModalAtDate(${day.day})" title="${hasEvent ? eventTypes.map(t => getCategoryLabel(t)).join(', ') : ''}">
                                             ${day.day}
                                             ${hasEvent ? `
                                                 <div class="event-indicator">
                                                     ${eventTypes.map(type => `<div class="event-dot ${type}"></div>`).join('')}
-                                                    ${eventTypes.length > 3 ? `<span style="font-size:5px;color:#8e8e93;font-weight:600;">+${eventTypes.length - 3}</span>` : ''}
                                                 </div>
                                             ` : ''}
                                         </div>
@@ -1658,9 +2474,18 @@
                                 <span><span class="dot purple"></span> Dat</span>
                                 <span><span class="dot green"></span> ✓</span>
                             </div>
+
+                            ${nextEvent ? `
+                                <div class="next-event-bar">
+                                    <span>⏰</span>
+                                    <span class="label">Próximo:</span>
+                                    <span>${getEventTitle(nextEvent)}</span>
+                                    <span class="time">· ${nextEvent.diff === 0 ? 'hoje' : nextEvent.diff === 1 ? 'amanhã' : 'em ' + nextEvent.diff + ' dias'}</span>
+                                </div>
+                            ` : ''}
                             
                             <div class="totals">
-                                <span>📌 ${monthEvents.length}</span>
+                                <span>📌 ${monthEvents.length} este mês</span>
                                 <span>✅ ${monthEvents.filter(e => e.arteFeita).length}</span>
                             </div>
                         </div>
@@ -1669,18 +2494,20 @@
                         <div class="ios-events">
                             <div class="ios-events-header">
                                 <h3>
-                                    ${monthNames[viewMonth]} ${viewYear}
-                                    <span style="font-weight:400;color:#8e8e93;font-size:13px;">· ${selectedDay}</span>
-                                    ${activeTab === 'cidades' ? '🏙️' : activeTab === 'aniversariantes' ? '🎂' : '📅'}
+                                    <span>${selectedDay} de ${monthNames[viewMonth]}</span>
+                                    <span class="date-chip">· ${dayEvents.length}</span>
                                 </h3>
-                                <span class="count">${filteredDayEvents.length}</span>
                             </div>
                             
                             <div class="ios-events-list hide-scrollbar">
-                                ${filteredDayEvents.length > 0 ? filteredDayEvents.map(item => {
+                                ${state.isLoading ? `
+                                    <div style="padding:8px;">
+                                        ${[1,2,3].map(() => `<div class="skeleton" style="height:52px;margin-bottom:6px;"></div>`).join('')}
+                                    </div>
+                                ` : dayEvents.length > 0 ? dayEvents.map(item => {
                                     const mediaUrl = item.imagem || '';
                                     const isImage = mediaUrl && isImageUrl(mediaUrl);
-                                    const title = item.cidade || item.nome || item.comemoracao || 'Sem título';
+                                    const title = getEventTitle(item);
                                     const date = item.data || '';
                                     const type = item.type || 'cidades';
                                     const isDone = item.arteFeita || false;
@@ -1691,7 +2518,7 @@
                                     if (hasMedia) {
                                         const imageUrl = getDriveImageUrl(mediaUrl);
                                         mediaHtml = `
-                                            <div class="ios-thumbnail ${isDone ? 'completed-thumb' : ''}" onclick="event.stopPropagation(); window.open('${imageUrl}', '_blank')">
+                                            <div class="ios-thumbnail ${isDone ? 'completed-thumb' : ''}" onclick="event.stopPropagation(); window.open('${imageUrl}', '_blank')" title="Ver arte">
                                                 <img src="${imageUrl}" alt="Arte" loading="lazy" />
                                             </div>
                                         `;
@@ -1700,17 +2527,20 @@
                                     return `
                                         <div class="ios-event-item ${typeClass} ${isDone ? 'completed' : ''}" onclick="openEditModal(${JSON.stringify(item).replace(/"/g, '&quot;')}, '${type}')">
                                             <div class="event-info">
-                                                <div class="event-title">
-                                                    ${title}
-                                                    ${hasMedia ? `<span class="ios-media-badge image">🖼️</span>` : ''}
+                                                <span class="event-icon">${getEventIcon(type)}</span>
+                                                <div class="event-text">
+                                                    <div class="event-title">
+                                                        ${title}
+                                                        ${hasMedia ? `<span class="ios-media-badge">🖼️</span>` : ''}
+                                                    </div>
+                                                    <div class="event-date">${date}</div>
                                                 </div>
-                                                <div class="event-date">${date}</div>
                                             </div>
                                             <div class="event-actions">
                                                 ${mediaHtml}
-                                                <div class="ios-check ${isDone ? 'done' : ''}" onclick="event.stopPropagation(); handleCheckClick(${JSON.stringify(item).replace(/"/g, '&quot;')}, '${type}')">
+                                                <div class="ios-check ${isDone ? 'done' : ''}" onclick="event.stopPropagation(); handleCheckClick(${JSON.stringify(item).replace(/"/g, '&quot;')}, '${type}')" title="${isDone ? 'Desmarcar' : 'Concluir'}">
                                                     ${isDone ? `
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                                     ` : ''}
                                                 </div>
                                             </div>
@@ -1719,20 +2549,30 @@
                                 }).join('') : `
                                     <div class="ios-empty">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                                        <p>Nenhum evento</p>
-                                        <p class="sub">Selecione outro dia</p>
+                                        <p>Nenhum evento em ${selectedDay} de ${monthNames[viewMonth]}</p>
+                                        <p class="sub">${filter === 'pending' ? 'Nada pendente neste dia' : filter === 'done' ? 'Nada concluído neste dia' : 'Selecione outro dia'}</p>
+                                        <button class="empty-action" onclick="openAddModalAtDate(${selectedDay})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                            Adicionar evento
+                                        </button>
                                     </div>
                                 `}
                             </div>
                         </div>
                     </div>
 
-                    <!-- MODAL - ADD EVENT MANUALMENTE -->
+                    <!-- FAB MOBILE -->
+                    <button class="fab-add" onclick="openAddModal()" title="Adicionar evento">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+
+                    <!-- MODAL - ADD EVENT -->
                     ${state.isAddModalOpen ? `
                         <div class="ios-modal" onclick="if(event.target === this) closeAddModal()">
                             <div class="ios-modal-content">
                                 <div class="ios-modal-handle"></div>
                                 <h2>Novo Evento</h2>
+                                <p class="subtitle">Preencha as informações</p>
                                 <hr class="ios-divider" style="margin-bottom:12px;" />
 
                                 <div style="margin-bottom:12px;">
@@ -1746,18 +2586,18 @@
 
                                 <div style="margin-bottom:12px;">
                                     <label class="ios-label">${state.newItem.tipo === 'cidades' ? 'Nome da Cidade' : state.newItem.tipo === 'aniversariantes' ? 'Nome do Assessor' : 'Nome da Comemoração'}</label>
-                                    <input type="text" value="${state.newItem.titulo}" onchange="updateNewItem('titulo', this.value)" class="ios-input" placeholder="Digite o nome..." />
+                                    <input type="text" value="${state.newItem.titulo}" oninput="updateNewItem('titulo', this.value)" class="ios-input" placeholder="Digite o nome..." />
                                 </div>
 
                                 <div style="margin-bottom:12px;">
                                     <label class="ios-label">Data</label>
-                                    <input type="text" value="${state.newItem.data}" onchange="updateNewItem('data', this.value)" class="ios-input" placeholder="${state.newItem.tipo === 'aniversariantes' ? 'Ex: 15/07' : 'Ex: 15 de Julho'}" />
+                                    <input type="text" value="${state.newItem.data}" oninput="updateNewItem('data', this.value)" class="ios-input" placeholder="${state.newItem.tipo === 'aniversariantes' ? 'Ex: 15/07' : 'Ex: 15 de Julho'}" />
                                 </div>
 
                                 ${state.newItem.tipo === 'cidades' ? `
                                     <div style="margin-bottom:12px;">
                                         <label class="ios-label">Ano de Fundação (Opcional)</label>
-                                        <input type="number" value="${state.newItem.extra}" onchange="updateNewItem('extra', this.value)" class="ios-input" placeholder="Ex: 1980" />
+                                        <input type="number" value="${state.newItem.extra}" oninput="updateNewItem('extra', this.value)" class="ios-input" placeholder="Ex: 1980" />
                                     </div>
                                 ` : ''}
 
@@ -1776,29 +2616,27 @@
                             <div class="ios-modal-content">
                                 <div class="ios-modal-handle"></div>
                                 <h2>Finalizar Arte</h2>
-                                <p class="subtitle">Selecione a imagem final (máx 1GB)</p>
+                                <p class="subtitle">${state.taskToComplete ? getEventTitle(state.taskToComplete) : 'Selecione a imagem final'}</p>
                                 
                                 <div style="margin-bottom:16px;">
                                     ${state.tempImageBase64 && state.tempImageBase64 !== 'loading' ? `
                                         <div class="ios-image-container" style="min-height:120px;">
                                             <img src="${state.tempImageBase64}" alt="Preview" style="max-height:30vh;" />
-                                            <p style="font-size:12px;color:#8e8e93;text-align:center;padding:8px;width:100%;">${state.tempFileName || 'Imagem selecionada'}</p>
+                                            <p style="font-size:12px;color:var(--text-2);text-align:center;padding:8px;width:100%;">${state.tempFileName || 'Imagem selecionada'}</p>
                                         </div>
                                     ` : state.tempImageBase64 === 'loading' ? `
                                         <div class="ios-image-container" style="min-height:120px;">
                                             <div style="text-align:center;padding:16px;">
-                                                <div style="width:28px;height:28px;border:2.5px solid rgba(0,122,255,0.15);border-top-color:#007AFF;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;"></div>
-                                                <p style="font-weight:500;color:#1a1a1a;margin-top:10px;font-size:14px;">Processando...</p>
+                                                <div style="width:28px;height:28px;border:2.5px solid rgba(0,122,255,0.15);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;"></div>
+                                                <p style="font-weight:500;color:var(--text);margin-top:10px;font-size:14px;">Processando...</p>
                                             </div>
                                         </div>
                                     ` : `
-                                        <label class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-[#c7c7cc] rounded-xl cursor-pointer hover:bg-[#f2f2f7] transition-colors bg-[#f8f8fa]" style="border-color:#c7c7cc;">
-                                            <div class="flex flex-col items-center justify-center pt-3 pb-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                                                <p class="mb-1 mt-2 text-sm text-[#8e8e93]"><span class="font-semibold text-[#007AFF]">Clique para enviar</span></p>
-                                                <p class="text-xs text-[#8e8e93]">JPG, PNG (máx 1GB)</p>
-                                            </div>
-                                            <input type="file" class="hidden" accept="image/*" onchange="handleImageSelect(event)" />
+                                        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:144px;border:2px dashed var(--text-3);border-radius:14px;cursor:pointer;background:var(--surface-2);">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--text-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                            <p style="margin-top:8px;font-size:14px;color:var(--text-2);"><span style="font-weight:700;color:var(--blue);">Clique para enviar</span></p>
+                                            <p style="font-size:11px;color:var(--text-2);margin-top:2px;">JPG, PNG (máx 1GB)</p>
+                                            <input type="file" style="display:none;" accept="image/*" onchange="handleImageSelect(event)" />
                                         </label>
                                     `}
                                     
@@ -1812,7 +2650,7 @@
                                     ${state.isUploadingMedia || state.uploadProgress > 0 ? `
                                         <div style="margin-top:12px;">
                                             <div class="ios-progress"><div class="ios-progress-bar" style="width:${state.uploadProgress}%;"></div></div>
-                                            <p class="ios-progress-text" style="text-align:center;font-size:12px;color:#8e8e93;margin-top:4px;">
+                                            <p class="ios-progress-text" style="text-align:center;font-size:12px;color:var(--text-2);margin-top:6px;">
                                                 ${state.uploadStatus || (state.uploadProgress < 100 ? `Enviando... ${state.uploadProgress}%` : 'Finalizando...')}
                                             </p>
                                         </div>
@@ -1836,7 +2674,8 @@
                         <div class="ios-modal" onclick="if(event.target === this) closeEditModal()">
                             <div class="ios-modal-content">
                                 <div class="ios-modal-handle"></div>
-                                <h2>Detalhes da Tarefa</h2>
+                                <h2>Detalhes</h2>
+                                <p class="subtitle">${state.editingItem ? getEventTitle(state.editingItem) : ''}</p>
                                 <hr class="ios-divider" style="margin-bottom:12px;" />
                                 
                                 <div style="${state.editingItem?.arteFeita ? 'md:flex md:gap-6' : ''}">
@@ -1845,37 +2684,37 @@
                                         ${state.editType === 'cidades' ? `
                                             <div style="margin-bottom:12px;">
                                                 <label class="ios-label">Nome da Cidade</label>
-                                                <input type="text" value="${state.editingItem?.cidade || ''}" onchange="updateEditingItem('cidade', this.value)" class="ios-input" />
+                                                <input type="text" value="${state.editingItem?.cidade || ''}" oninput="updateEditingItem('cidade', this.value)" class="ios-input" />
                                             </div>
                                             <div style="margin-bottom:12px;">
                                                 <label class="ios-label">Data de Aniversário</label>
-                                                <input type="text" value="${state.editingItem?.data || ''}" onchange="updateEditingItem('data', this.value)" class="ios-input" />
+                                                <input type="text" value="${state.editingItem?.data || ''}" oninput="updateEditingItem('data', this.value)" class="ios-input" />
                                             </div>
                                             <div style="margin-bottom:12px;">
                                                 <label class="ios-label">Ano de Fundação</label>
-                                                <input type="number" value="${state.editingItem?.anoFundacao || ''}" onchange="updateEditingItem('anoFundacao', this.value)" placeholder="Ex: 1980" class="ios-input" />
+                                                <input type="number" value="${state.editingItem?.anoFundacao || ''}" oninput="updateEditingItem('anoFundacao', this.value)" placeholder="Ex: 1980" class="ios-input" />
                                             </div>
                                         ` : ''}
 
                                         ${state.editType === 'aniversariantes' ? `
                                             <div style="margin-bottom:12px;">
                                                 <label class="ios-label">Nome do Assessor</label>
-                                                <input type="text" value="${state.editingItem?.nome || ''}" onchange="updateEditingItem('nome', this.value)" class="ios-input" />
+                                                <input type="text" value="${state.editingItem?.nome || ''}" oninput="updateEditingItem('nome', this.value)" class="ios-input" />
                                             </div>
                                             <div style="margin-bottom:12px;">
                                                 <label class="ios-label">Data (DD/MM)</label>
-                                                <input type="text" value="${state.editingItem?.data || ''}" onchange="updateEditingItem('data', this.value)" class="ios-input" />
+                                                <input type="text" value="${state.editingItem?.data || ''}" oninput="updateEditingItem('data', this.value)" class="ios-input" />
                                             </div>
                                         ` : ''}
 
                                         ${state.editType === 'datas' ? `
                                             <div style="margin-bottom:12px;">
                                                 <label class="ios-label">Comemoração</label>
-                                                <input type="text" value="${state.editingItem?.comemoracao || ''}" onchange="updateEditingItem('comemoracao', this.value)" class="ios-input" />
+                                                <input type="text" value="${state.editingItem?.comemoracao || ''}" oninput="updateEditingItem('comemoracao', this.value)" class="ios-input" />
                                             </div>
                                             <div style="margin-bottom:12px;">
                                                 <label class="ios-label">Data</label>
-                                                <input type="text" value="${state.editingItem?.data || ''}" onchange="updateEditingItem('data', this.value)" class="ios-input" />
+                                                <input type="text" value="${state.editingItem?.data || ''}" oninput="updateEditingItem('data', this.value)" class="ios-input" />
                                             </div>
                                         ` : ''}
                                     </div>
@@ -1895,7 +2734,7 @@
                                                     return `
                                                         <div class="placeholder">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                                                            <p style="color:#8e8e93;font-size:13px;font-weight:500;">Arquivo não encontrado</p>
+                                                            <p style="color:var(--text-2);font-size:13px;font-weight:500;">Arquivo não encontrado</p>
                                                         </div>
                                                     `;
                                                 })()}
@@ -1906,15 +2745,15 @@
                                                     const mediaUrl = state.editingItem?.imagem || '';
                                                     if (mediaUrl && mediaUrl.length > 10) {
                                                         const imageUrl = getDriveImageUrl(mediaUrl);
-                                                        return `<a href="${imageUrl}" target="_blank" rel="noreferrer" download="Arte_${state.editingItem.id}.jpg" class="ios-btn secondary" style="text-align:center;padding:10px;font-size:14px;">Baixar Imagem</a>`;
+                                                        return `<a href="${imageUrl}" target="_blank" rel="noreferrer" download="Arte_${state.editingItem.id}.jpg" class="ios-btn secondary" style="text-align:center;padding:10px;font-size:14px;text-decoration:none;">Baixar Imagem</a>`;
                                                     }
-                                                    return `<button disabled class="ios-btn" style="background:#f2f2f7;color:#8e8e93;text-align:center;padding:10px;font-size:14px;cursor:not-allowed;">Baixar Imagem</button>`;
+                                                    return `<button disabled class="ios-btn" style="background:var(--surface-3);color:var(--text-2);text-align:center;padding:10px;font-size:14px;cursor:not-allowed;">Baixar Imagem</button>`;
                                                 })()}
                                                 
                                                 <button onclick="handleEditImageClick()" class="ios-btn secondary" style="text-align:center;padding:10px;font-size:14px;">
                                                     ${(state.editingItem?.imagem && state.editingItem.imagem.length > 10) ? 'Alterar Imagem' : 'Adicionar Imagem'}
                                                 </button>
-                                                <input type="file" id="edit-image-input" accept="image/*" class="hidden" onchange="handleEditImageSelect(event)" />
+                                                <input type="file" id="edit-image-input" accept="image/*" style="display:none;" onchange="handleEditImageSelect(event)" />
                                             </div>
                                         </div>
                                     ` : ''}
@@ -1928,6 +2767,28 @@
                             </div>
                         </div>
                     ` : ''}
+
+                    <!-- MODAL - PASSWORD -->
+                    ${state.passwordModal.isOpen ? `
+                        <div class="ios-modal" onclick="if(event.target === this) closePasswordModal()">
+                            <div class="ios-modal-content" style="max-width:380px;">
+                                <div class="ios-modal-handle"></div>
+                                <h2>🔒 Senha</h2>
+                                <p class="subtitle">${state.passwordModal.title}</p>
+                                
+                                <div class="password-dots">
+                                    ${[0,1,2,3].map(i => `<div class="password-dot ${i < state.passwordModal.dots ? 'filled' : ''} ${state.passwordModal.error ? 'error' : ''}"></div>`).join('')}
+                                </div>
+
+                                <div class="password-pad">
+                                    ${[1,2,3,4,5,6,7,8,9].map(n => `<button onclick="handlePwdDigit('${n}')">${n}</button>`).join('')}
+                                    <button onclick="closePasswordModal()" style="font-size:14px;color:var(--red);">✕</button>
+                                    <button onclick="handlePwdDigit('0')">0</button>
+                                    <button onclick="handlePwdBackspace()" style="font-size:18px;">⌫</button>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
                 </div>
             `;
 
@@ -1935,7 +2796,7 @@
         };
 
         // ============================================
-        // FUNÇÕES DE ATUALIZAÇÃO
+        // UPDATE UI
         // ============================================
         const updateUI = () => {
             const app = document.getElementById('app');
@@ -1943,10 +2804,15 @@
         };
 
         // ============================================
-        // FUNÇÕES GLOBAIS
+        // GLOBAL HANDLERS
         // ============================================
         window.setActiveTab = (tab) => {
             state.activeTab = tab;
+            updateUI();
+        };
+
+        window.setFilter = (f) => {
+            state.filter = f;
             updateUI();
         };
 
@@ -1967,7 +2833,6 @@
             updateUI();
         };
 
-        // --- NOVAS FUNÇÕES PARA ADICIONAR EVENTO ---
         window.openAddModal = () => {
             state.isAddModalOpen = true;
             state.newItem = { 
@@ -2003,7 +2868,7 @@
 
         window.handleSaveNewEvent = () => {
             if (!state.newItem.titulo || !state.newItem.data) {
-                alert("Preencha o nome e a data.");
+                showToast('Preencha o nome e a data', 'error');
                 return;
             }
 
@@ -2023,7 +2888,6 @@
                 closeAddModal();
             }
         };
-        // -------------------------------------------
 
         window.handleImageSelect = (event) => {
             if (event.target.files && event.target.files[0]) {
@@ -2070,12 +2934,9 @@
 
         window.handleEditImageClick = () => {
             const isEditing = (state.editingItem?.imagem && state.editingItem.imagem.length > 10);
-            const pwd = prompt(`Senha (2026) para ${isEditing ? 'alterar' : 'adicionar'} a imagem:`);
-            if (pwd === "2026") {
+            openPasswordModal(`Digite a senha para ${isEditing ? 'alterar' : 'adicionar'} a imagem`, () => {
                 document.getElementById('edit-image-input').click();
-            } else if (pwd !== null) {
-                alert("Senha incorreta!");
-            }
+            });
         };
 
         window.handleEditImageSelect = (event) => {
@@ -2092,19 +2953,69 @@
             event.target.value = '';
         };
 
+        // keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // ignore when typing in input/select/textarea
+            const tag = (e.target.tagName || '').toLowerCase();
+            if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+            
+            if (state.passwordModal.isOpen) {
+                if (e.key >= '0' && e.key <= '9') {
+                    window.handlePwdDigit(e.key);
+                    e.preventDefault();
+                } else if (e.key === 'Backspace') {
+                    window.handlePwdBackspace();
+                    e.preventDefault();
+                } else if (e.key === 'Escape') {
+                    closePasswordModal();
+                }
+                return;
+            }
+
+            if (e.key === 'Escape') {
+                if (state.isAddModalOpen) closeAddModal();
+                else if (state.isImageUploadModalOpen) closeImageModal();
+                else if (state.isEditModalOpen) closeEditModal();
+                return;
+            }
+
+            // shortcuts only when no modal is open
+            const anyModal = state.isAddModalOpen || state.isImageUploadModalOpen || state.isEditModalOpen;
+            if (anyModal) return;
+
+            if (e.key === 'n' || e.key === 'N') {
+                window.openAddModal();
+                e.preventDefault();
+            } else if (e.key === 'ArrowLeft') {
+                window.selectDay(Math.max(1, state.selectedDay - 1));
+                e.preventDefault();
+            } else if (e.key === 'ArrowRight') {
+                const dim = new Date(state.viewYear, state.viewMonth + 1, 0).getDate();
+                window.selectDay(Math.min(dim, state.selectedDay + 1));
+                e.preventDefault();
+            }
+        });
+
         // ============================================
-        // INICIALIZAÇÃO
+        // INIT
         // ============================================
         document.addEventListener('DOMContentLoaded', () => {
+            // dark mode persistence
+            try {
+                const saved = localStorage.getItem('darkMode');
+                if (saved === '1' || (saved === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    applyDarkMode(true);
+                }
+            } catch(e) {}
+
             document.getElementById('loading').style.display = 'none';
             fetchDataFromSheets();
             setInterval(() => {
-                // Pausa a sincronização automática se algum modal estiver aberto
-                const isModalOpen = state.isEditModalOpen || state.isImageUploadModalOpen || state.isAddModalOpen;
+                const isModalOpen = state.isEditModalOpen || state.isImageUploadModalOpen || state.isAddModalOpen || state.passwordModal.isOpen;
                 if (!isSaving && !isModalOpen) {
                     fetchDataFromSheets(true);
                 }
-            }, 8000);
+            }, 15000);
         });
     </script>
 
@@ -2113,7 +3024,6 @@
             navigator.serviceWorker.getRegistrations().then(function(registrations) {
                 for(let registration of registrations) {
                     registration.unregister();
-                    console.log('Service Worker removido');
                 }
             });
         }
