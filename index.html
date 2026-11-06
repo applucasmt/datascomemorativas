@@ -2577,7 +2577,7 @@
 
                                 <div style="margin-bottom:12px;">
                                     <label class="ios-label">Tipo de Evento</label>
-                                    <select onchange="updateNewItem('tipo', this.value)" class="ios-input">
+                                    <select onchange="updateNewItem('tipo', this.value, true)" class="ios-input">
                                         <option value="cidades" ${state.newItem.tipo === 'cidades' ? 'selected' : ''}>Aniversário de Cidade</option>
                                         <option value="aniversariantes" ${state.newItem.tipo === 'aniversariantes' ? 'selected' : ''}>Aniversário de Assessor</option>
                                         <option value="datas" ${state.newItem.tipo === 'datas' ? 'selected' : ''}>Data Comemorativa</option>
@@ -2861,9 +2861,11 @@
             updateUI();
         };
 
-        window.updateNewItem = (field, value) => {
+        window.updateNewItem = (field, value, shouldUpdateUI = false) => {
             state.newItem[field] = value;
-            updateUI();
+            if (shouldUpdateUI) {
+                updateUI();
+            }
         };
 
         window.handleSaveNewEvent = () => {
